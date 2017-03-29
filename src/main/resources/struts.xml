@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+ "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ <constant name="struts.enable.DynamicMethodInvocation"
+     value="false" />
+      
+ <constant name="struts.devMode" value="true" />
+ <constant name="struts.custom.i18n.resources"
+     value="ApplicationResources" />
+ 
+ <package name="default" namespace="/" extends="json-default">
+ 	<interceptors>
+		<interceptor-stack name="defaultStack">
+			<interceptor-ref name="json">
+				<param name="enableSMD">true</param>
+			</interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+     <action name="Login" class="bsh.uit.user.LoginAction" method="Login">
+         <result name="success" type="json">
+         	<param name="excludeProperties">password</param>
+         </result>
+     </action>
+     <action name="pjnewsfeed" class="bsh.uit.project.ProjectAction" method="getNewsFeed">
+     	<result name="success" type="json">
+         	<!-- <param name="excludeProperties">password</param> -->
+         </result>
+     </action>
+ </package>
+</struts>
