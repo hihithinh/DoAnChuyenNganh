@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
     	<script type="text/javascript" src="resources/scripts/main.js"></script>
-    	<script type="text/javascript" src="resources/scripts/player.js"></script>
 		<link rel="stylesheet" href="resources/styles/main.css">
 	</head>
  
@@ -26,19 +25,6 @@
 			</div>
 		</div>
 		<div id="content" class="content">
-			<input type="button" id="btnGetContent" value="Lấy nội dung" onclick="loadNewsFeed()"/>
-			<div id="project" class="project">
-				<div id="view">
-					<div id="ytplayer"></div>
-					<div id="pjinfo">
-						<div id="pjname"></div>
-						<div id="user"></div>
-						<div id="description"></div>
-						<input id="btnStudio" type="button" value="Change site" onClick="geturl()" />
-					</div>
-				</div>
-				<iframe id="studio" width="100%" height="850" src=""></iframe>
-			</div>
 		</div>
 	</body>
 </html>

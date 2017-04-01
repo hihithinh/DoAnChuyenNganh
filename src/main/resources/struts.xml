@@ -11,7 +11,7 @@
  <constant name="struts.custom.i18n.resources"
      value="ApplicationResources" />
  
- <package name="default" namespace="/" extends="json-default">
+ <package name="default" namespace="/" extends="json-default, struts-default">
  	<interceptors>
 		<interceptor-stack name="defaultStack">
 			<interceptor-ref name="json">
@@ -19,15 +19,30 @@
 			</interceptor-ref>
 		</interceptor-stack>
 	</interceptors>
-     <action name="Login" class="bsh.uit.user.LoginAction" method="Login">
+     <action name="Login" class="bsh.uit.Action.user.LoginAction" method="Login">
          <result name="success" type="json">
          	<param name="excludeProperties">password</param>
          </result>
      </action>
-     <action name="pjnewsfeed" class="bsh.uit.project.ProjectAction" method="getNewsFeed">
+     <action name="pjnewsfeed" class="bsh.uit.Action.project.ProjectAction" method="getNewsFeed">
      	<result name="success" type="json">
          	<!-- <param name="excludeProperties">password</param> -->
          </result>
+     </action>
+     <action name="getProjectVideo" class="bsh.uit.Action.video.VideoAction" method="getProjectVideo">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
+     <action name="getProjectDetail" class="bsh.uit.Action.detail.DetailAction" method="getProjectDetail">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
+     <action name="getProjectStudio" class="bsh.uit.Action.project.ProjectAction" method="loadProjectStudio">
+     	<result name="success">/WEB-INF/jsp/project/project_studio.jsp
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+        </result>
      </action>
  </package>
 </struts>

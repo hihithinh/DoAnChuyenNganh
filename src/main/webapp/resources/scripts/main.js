@@ -76,16 +76,44 @@ function titleCase(str) {
 }  
 
 //Xu ly noi dung cho view
-
+var str;
 function loadNewsFeed() {
+	str = "";
 	$.ajax({
 		url: "pjnewsfeed",
 		type : "post",
 		dateType:"json",
 		contentType:"application/json",
-		data: JSON.stringify({"user_id":user.id}),
+		data: JSON.stringify({"user_id":"U1"}),
 		success : function (res) {
-			alert(res)
+			for(var i=0; i<res.lstProject.length; i++) {
+
+				str = str
+					+"<div class=\"project\">"
+						+"<div class=\"present\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+				
+				for(var j=0; j<res.lstDetail.length; j++) {
+					if(res.lstDetail[j].project.id==res.lstProject[i].id){
+						if(res.lstProject[i].status == 1 && res.lstDetail[j].video_type == 2) {
+							str = str + res.lstDetail[j].video.link;
+						} else if(res.lstDetail[j].video_type == 0) {
+							str = str + res.lstDetail[j].video.link;
+						}
+					}
+				}
+				
+				str = str	+"\" frameborder=\"0\" allowfullscreen></iframe></div>"
+						+"<div class=\"pjinfo\">"
+							+"<div class=\"pjname\">"+res.lstProject[i].name+"</div>"
+							+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
+							+"<div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
+							+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"getProjectStudio?pid=" + res.lstProject[i].id
+							+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
+						+"</div>"
+					+"</div>";
+				
+			}
+			$(".content").append(str);
 		},
 		error:function(){
 			alert("Xảy ra lỗi khi đăng nhập");	
@@ -93,3 +121,21 @@ function loadNewsFeed() {
 	});
 }
 
+$( document ).ready(loadNewsFeed()); 
+
+//2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('ytplayer', {
+      height: '300',
+      width: '560',
+      videoId: 'M7lc1UVf-VE',
+    });
+}

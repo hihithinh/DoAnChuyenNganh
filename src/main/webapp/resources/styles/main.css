@@ -9,6 +9,7 @@ body {
     background-color: #84ffb1;
     padding-top:0;
     margin-top:-8;
+    margin-bottom: 10;
 }
 
 .rfloat {
@@ -29,19 +30,51 @@ body {
 	min-width: 500;
     margin-left: 150;
     margin-right: 150;
-    margin-top: 10;
     overflow:hidden;
-	background-color: #84ffb1;
 }
+
 
 .project {
 	margin-top:10;
 	margin-left:10;
 	margin-bottom:10;
+	min-height: 315px;
+	background-color: #84ffb1;
+}
+
+.present {
+	height: 20;
+}
+
+.pjinfo {
+	min-height: 315px;
+	min-width: 400px;
+	margin-left: 570px;
+	position:relative;
+}
+
+.pjname {
+	font-size: 20px;
+	border-bottom: 2px solid black;
+	text-align: center;
+}
+
+.pjuser {
+	text-align: right;
+}
+
+.pjdescription {
+	text-align: left;
 }
 
 #ytplayer {
 	float:left;
+}
+
+.btnStudio {
+	right: 10;
+	bottom: 10;
+	position: absolute;
 }
 
 .btnConfig {

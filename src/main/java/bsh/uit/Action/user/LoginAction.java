@@ -1,10 +1,9 @@
-package bsh.uit.user;
+package bsh.uit.Action.user;
  
 import java.sql.SQLException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import bsh.uit.core.dao.UserDAO;
 import bsh.uit.core.entities.User;
 import bsh.uit.core.mgr.UserMgr;
 
@@ -15,11 +14,10 @@ public class LoginAction extends ActionSupport {
    private String password;
    private User user;
    private UserMgr userMgr;
-   private UserDAO userDao;
    private boolean loginState;
    
 
-@Override
+   @Override
    public String execute() throws Exception {
            return SUCCESS;
    }
@@ -27,7 +25,6 @@ public class LoginAction extends ActionSupport {
    public LoginAction() throws ClassNotFoundException, SQLException {
 	   user = new User();
 	   userMgr = new UserMgr();
-	   userDao = new UserDAO();
    }
  
    public String Login() throws Exception {

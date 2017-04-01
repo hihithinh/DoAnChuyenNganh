@@ -16,4 +16,8 @@ public class ProjectMgr {
 	public List<Project> getProjectforNews() throws Exception {
 		return projectDao.getAllProject();
 	}
+	
+	public Project getProjectbyId(String id) throws Exception {
+		return projectDao.getProjectbyId(id);
+	}
 }

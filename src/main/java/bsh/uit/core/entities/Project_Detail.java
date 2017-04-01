@@ -20,6 +20,7 @@ public class Project_Detail implements Serializable{
 	
 	//Thu tu sap xep video
 	private int order;
+	
 
 	public Project getProject() {
 		return project;
