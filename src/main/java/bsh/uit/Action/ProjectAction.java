@@ -1,4 +1,4 @@
-package bsh.uit.Action.project;
+package bsh.uit.Action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +62,12 @@ public class ProjectAction  extends ActionSupport {
 		project = projectMgr.getProjectbyId(pid);
 		lstProject.add(project);
 		
+		return SUCCESS;
+	}
+	
+	public String doCombile() {
+		//Giao tiep giua shell va java
+		//su dung bien pid
 		return SUCCESS;
 	}
 

@@ -10,6 +10,7 @@
  <constant name="struts.devMode" value="true" />
  <constant name="struts.custom.i18n.resources"
      value="ApplicationResources" />
+ <constant name="struts.multipart.maxSize" value="104857600" />
  
  <package name="default" namespace="/" extends="json-default, struts-default">
  	<interceptors>
@@ -19,30 +20,43 @@
 			</interceptor-ref>
 		</interceptor-stack>
 	</interceptors>
-     <action name="Login" class="bsh.uit.Action.user.LoginAction" method="Login">
+     <action name="Login" class="bsh.uit.Action.UserAction" method="Login">
          <result name="success" type="json">
          	<param name="excludeProperties">password</param>
          </result>
      </action>
-     <action name="pjnewsfeed" class="bsh.uit.Action.project.ProjectAction" method="getNewsFeed">
+     <action name="pjnewsfeed" class="bsh.uit.Action.ProjectAction" method="getNewsFeed">
      	<result name="success" type="json">
          	<!-- <param name="excludeProperties">password</param> -->
          </result>
      </action>
-     <action name="getProjectVideo" class="bsh.uit.Action.video.VideoAction" method="getProjectVideo">
+     <action name="getProjectVideo" class="bsh.uit.Action.VideoAction" method="getProjectVideo">
      	<result name="success" type="json">
          	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
-     <action name="getProjectDetail" class="bsh.uit.Action.detail.DetailAction" method="getProjectDetail">
+     <action name="getProjectDetail" class="bsh.uit.Action.DetailAction" method="getProjectDetail">
      	<result name="success" type="json">
          	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
-     <action name="getProjectStudio" class="bsh.uit.Action.project.ProjectAction" method="loadProjectStudio">
+     <action name="doCombile" class="bsh.uit.Action.ProjectAction" method="doCombile">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
+     <action name="getProjectStudio" class="bsh.uit.Action.ProjectAction" method="loadProjectStudio">
      	<result name="success">/WEB-INF/jsp/project/project_studio.jsp
          	<!-- <param name="includeProperties">lstDetail</param>  -->
         </result>
      </action>
+	<action name="fileUpload" class="bsh.uit.Action.FileUploadAction" >
+        <interceptor-ref name="fileUploadStack">
+            <param name="maximumSize">104857600</param>
+            <param name="allowedTypes">video/*</param>
+        </interceptor-ref>
+        <result name="success">/WEB-INF/jsp/uploadSuccess.jsp</result>
+        <result name="input">/WEB-INF/jsp/fileUpload.jsp</result>
+	</action>
  </package>
 </struts>

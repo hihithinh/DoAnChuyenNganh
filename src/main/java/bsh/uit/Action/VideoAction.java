@@ -1,4 +1,4 @@
-package bsh.uit.Action.video;
+package bsh.uit.Action;
 
 import java.util.ArrayList;
 import java.util.List;

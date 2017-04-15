@@ -1,4 +1,4 @@
-package bsh.uit.Action.user;
+package bsh.uit.Action;
  
 import java.sql.SQLException;
 
@@ -7,7 +7,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import bsh.uit.core.entities.User;
 import bsh.uit.core.mgr.UserMgr;
 
-public class LoginAction extends ActionSupport {
+public class UserAction extends ActionSupport {
  
    private static final long serialVersionUID = 7299264265184515893L;
    private String account;
@@ -22,7 +22,7 @@ public class LoginAction extends ActionSupport {
            return SUCCESS;
    }
    
-   public LoginAction() throws ClassNotFoundException, SQLException {
+   public UserAction() throws ClassNotFoundException, SQLException {
 	   user = new User();
 	   userMgr = new UserMgr();
    }
