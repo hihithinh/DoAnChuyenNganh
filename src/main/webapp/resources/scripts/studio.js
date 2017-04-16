@@ -1,4 +1,4 @@
-function Login(id) {
+function doCombile(id) {
 	user = null;
 	$.ajax({
 		url: "doCombile",

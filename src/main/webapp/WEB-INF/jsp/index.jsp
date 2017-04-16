@@ -26,14 +26,6 @@
 				<div id="hello"></div>
 			</div>
 		</div>
-    	<%-- <s:form action="fileUpload" method="post" enctype="multipart/form-data">
-		   <s:file name="myFile" accept="video/*"/>
-		   <s:submit value="upload"/>
-		</s:form> --%>
-		<s:form action="fileUpload" method="post" enctype="multipart/form-data">
-	        <s:file name="fileDoc" label="Choose file to upload" />
-	        <s:submit value="upload" align="center" />
-		</s:form>
 		<div id="content" class="content">
 		</div>
 		<script type="text/javascript">

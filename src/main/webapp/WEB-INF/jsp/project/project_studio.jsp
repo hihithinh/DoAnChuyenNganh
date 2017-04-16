@@ -29,8 +29,11 @@
 		<h2><s:property value="lstProject[0].name"/> - <s:property value="lstProject[0].user.name"/></h2>
 		<iframe id="studio" width="100%" height="850" src=""></iframe>
 		
-		<input type="button" id="btnLogin" value="Đăng nhập" onclick="doCombile(lstProject[0].id)"/>
-		
+		<input type="button" id="btnCombile" value="Combile" onclick="doCombile(pjId.innerHTML)"/>
+		<s:form action="fileUpload" method="post" enctype="multipart/form-data">
+	        <s:file name="fileDoc" label="Choose file to upload" />
+	        <s:submit value="upload" align="center" />
+		</s:form>
 		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
 		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
 		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
