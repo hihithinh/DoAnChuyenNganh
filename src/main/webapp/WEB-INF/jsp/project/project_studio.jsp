@@ -6,12 +6,19 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Kết nối người chơi nhạc</title>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="resources/scripts/studio.js"></script>
 		<link rel="stylesheet" href="resources/styles/main.css">
 	</head>
 	<body>
+		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
+		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
+		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
+		<span id="pjStatus" style="display:none"><s:property value="lstProject[0].status" /></span>
+		
 		<div id="header" class="header">
 			<div id="btnHome" class="btnHome"></div>
 			<div id="btnConfig" class="btnConfig"></div>
@@ -29,15 +36,26 @@
 		<h2><s:property value="lstProject[0].name"/> - <s:property value="lstProject[0].user.name"/></h2>
 		<iframe id="studio" width="100%" height="850" src=""></iframe>
 		
-		<input type="button" id="btnCombile" value="Combile" onclick="doCombile(pjId.innerHTML)"/>
-		<s:form action="fileUpload" method="post" enctype="multipart/form-data">
-	        <s:file name="fileDoc" label="Choose file to upload" />
-	        <s:submit value="upload" align="center" />
-		</s:form>
-		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
-		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
-		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
-		<span id="pjStatus" style="display:none"><s:property value="lstProject[0].status" /></span>
+		<div id="dialog-form" title="Tải lên Video của bạn">
+			<p class="validateTips">Hãy đăng video nào!</p>
+		 
+			<s:form action="fileUpload" method="post" enctype="multipart/form-data">
+		        <s:file name="fileDoc" label="Chọn file" accept="video/*"/>
+		        <s:hidden name="pid" value="" id="pid" />
+		        <s:hidden name="uid" value="" id="uid" />
+		        <s:select label="Instrument"
+					list="#{'T300':'Hát', 'T301':'Guitar', 'T302':'Piano', 'T303':'Organ', 'T304':'Violin', 'T305':'Trống', 'T306':'Ukulele', 'T307':'Harmonica'}"
+					name="instrument"
+					value="1" />
+				<s:textarea name="description" label="Mô tả" cols="34" rows="10" />
+		        <s:submit value="Đăng Video" align="center" />
+		        
+			</s:form>
+		</div>
+		
+		<button id="btnCombile" onclick="doCombile(pjId.innerHTML)">Combile</button>
+		<button id="btnUpload">Tham gia</button>
+		
 		<script>
 		//Xu ly title
 		var rev = "fwd";
@@ -75,6 +93,10 @@
 		titlebar(0);
 		
 		function geturl(){
+			document.getElementById('pid').value = pjId.innerHTML;
+			/* if(user.id != null)
+			document.getElementById('uid').value = user.id; */
+			document.getElementById('uid').value = "U2";
 			$.ajax({
 				url: "getProjectDetail",
 				type : "post",
