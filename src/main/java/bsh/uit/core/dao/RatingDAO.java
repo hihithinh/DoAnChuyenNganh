@@ -28,7 +28,7 @@ public class RatingDAO {
 			rating.setCreated_day(null);
 			rating.setDescription(resultSet.getString("description"));
 			rating.setId(resultSet.getString("notify_id"));
-			rating.setParent(getNotifybyId(resultSet.getString("parent_id")));
+			rating.setParent(getRatingbyId(resultSet.getString("parent_id")));
 			rating.setPoint(resultSet.getInt("rating_point"));
 			rating.setProject(projectDao.getProjectbyId(resultSet.getString("project_id")));
 			rating.setType(resultSet.getInt("rating_type"));
@@ -38,7 +38,7 @@ public class RatingDAO {
 		return lstRating;
 	}
 	
-	public Rating getNotifybyId(String id) throws Exception {
+	public Rating getRatingbyId(String id) throws Exception {
 		Connection connect = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -67,6 +67,173 @@ public class RatingDAO {
 			if(resultSet != null) {
 				resultSet.close();
 			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public Rating getLastRating() throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select * from rating "
+					+ "order by rating_id desc "
+					+ "limit 1");
+			
+		  //execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+
+			resultSet = preparedStatement.executeQuery();
+			
+			return SQLtoRating(resultSet).get(0);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(resultSet != null) {
+				resultSet.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+
+	public String addRating(Rating rating) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("insert into rating "
+					+ "(`RATING_ID`, `USER_ID`, `PROJECT_ID`, `RATING_POINT`, `DESCRIPTION`, `PARENT_ID`, `RATING_TYPE`, "
+					+ "`CREATED_DAY`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			//Get last ID then +1
+			Rating vid = new Rating();
+			vid = getLastRating();
+			String lastId = "R" + String.valueOf(Integer.parseInt(vid.getId().substring(1)) + 1);
+			
+			params.add(lastId);
+			params.add(rating.getUser().getId());
+			params.add(rating.getProject().getId());
+			params.add(rating.getPoint());
+			params.add(rating.getDescription());
+			params.add(rating.getParent());
+			params.add(rating.getType());
+			params.add(rating.getCreated_day());
+
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			
+			if(Success == 0)
+				return "error";
+			return "success";
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public String updateRating(Rating rating) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("update rating set "
+					+ "`USER_ID`=?, `PROJECT_ID`=?, `RATING_POINT`=?, `DESCRIPTION`=?, `PARENT_ID`=?, "
+					+ "`RATING_TYPE`=?, `CREATED_DAY`=? WHERE `RATING_ID`=?");
+
+			params.add(rating.getUser().getId());
+			params.add(rating.getProject().getId());
+			params.add(rating.getPoint());
+			params.add(rating.getDescription());
+			params.add(rating.getParent());
+			params.add(rating.getType());
+			params.add(rating.getCreated_day());
+			params.add(rating.getId());
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return "error";
+			return "success";
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public String deleteRating(String id) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("delete from rating where `RATING_ID`=?");
+			params.add(id);
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return "error";
+			return "success";
+		} catch (Exception e) {
+			throw e;
+		} finally {
 			if(preparedStatement != null) {
 				preparedStatement.close();
 			}

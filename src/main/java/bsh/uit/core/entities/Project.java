@@ -1,6 +1,7 @@
 package bsh.uit.core.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Project implements Serializable{
 
@@ -50,10 +51,10 @@ public class Project implements Serializable{
 	private int needHarmonica;
 	
 	//Ngay tao Project
-	private Datetime created_day;
+	private Date created_day;
 	
 	//Ngay cap nhat Project
-	private Datetime update_day;
+	private Date update_day;
 	
 	//Mo ta cua Project
 	private String description;
@@ -170,19 +171,19 @@ public class Project implements Serializable{
 		this.needHarmonica = needHarmonica;
 	}
 
-	public Datetime getCreated_day() {
+	public Date getCreated_day() {
 		return created_day;
 	}
 
-	public void setCreated_day(Datetime created_day) {
+	public void setCreated_day(Date created_day) {
 		this.created_day = created_day;
 	}
 
-	public Datetime getUpdate_day() {
+	public Date getUpdate_day() {
 		return update_day;
 	}
 
-	public void setUpdate_day(Datetime update_day) {
+	public void setUpdate_day(Date update_day) {
 		this.update_day = update_day;
 	}
 

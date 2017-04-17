@@ -1,6 +1,7 @@
 package bsh.uit.core.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Video implements Serializable{
 
@@ -25,7 +26,7 @@ public class Video implements Serializable{
 	private int status;
 	
 	//Ngay dang video
-	private Datetime created_day;
+	private Date created_day;
 
 	public String getId() {
 		return id;
@@ -75,11 +76,11 @@ public class Video implements Serializable{
 		this.status = status;
 	}
 
-	public Datetime getCreated_day() {
+	public Date getCreated_day() {
 		return created_day;
 	}
 
-	public void setCreated_day(Datetime created_day) {
+	public void setCreated_day(Date created_day) {
 		this.created_day = created_day;
 	}
 }

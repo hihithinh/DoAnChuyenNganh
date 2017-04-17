@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import bsh.uit.core.dao.UserDAO;
 import bsh.uit.core.entities.User;
 import bsh.uit.core.mgr.UserMgr;
 
@@ -15,7 +16,6 @@ public class UserAction extends ActionSupport {
    private User user;
    private UserMgr userMgr;
    private boolean loginState;
-   
 
    @Override
    public String execute() throws Exception {
@@ -29,8 +29,7 @@ public class UserAction extends ActionSupport {
  
    public String Login() throws Exception {
 	   try {
-		  // user = new User();
-		   //userDao.readDataBase();
+
 		   user = userMgr.loginUser(account, password);
 		   System.out.println("name:"+user.getName());
 		   if(user.getName().equals(null) || user.getName() == null) {
@@ -38,6 +37,7 @@ public class UserAction extends ActionSupport {
 		   } else {
 			   loginState = true;
 		   }
+		   
 		   return SUCCESS;
 		   
 	   } catch (Exception e) {

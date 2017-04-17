@@ -20,4 +20,16 @@ public class ProjectMgr {
 	public Project getProjectbyId(String id) throws Exception {
 		return projectDao.getProjectbyId(id);
 	}
+	
+	public Project addProject(Project project) throws Exception {
+		return projectDao.addProject(project);
+	}
+	
+	public Project updateProject(Project project) throws Exception {
+		return projectDao.updateProject(project);
+	}
+	
+	public String deleteProject(String id) throws Exception {
+		return projectDao.deleteProject(id);
+	}
 }

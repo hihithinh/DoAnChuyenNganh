@@ -1,6 +1,7 @@
 package bsh.uit.core.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Rating implements Serializable{
 
@@ -28,7 +29,7 @@ public class Rating implements Serializable{
 	private int type;
 	
 	//Ngay dang Rating
-	private Datetime created_day;
+	private Date created_day;
 
 	public String getId() {
 		return id;
@@ -86,11 +87,11 @@ public class Rating implements Serializable{
 		this.type = type;
 	}
 
-	public Datetime getCreated_day() {
+	public Date getCreated_day() {
 		return created_day;
 	}
 
-	public void setCreated_day(Datetime created_day) {
+	public void setCreated_day(Date created_day) {
 		this.created_day = created_day;
 	}
 }

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bsh.uit.core.entities.Submit_Queue;
@@ -65,6 +66,163 @@ public class SubmitDAO {
 			if(resultSet != null) {
 				resultSet.close();
 			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public Submit_Queue addSubmit_Queue(Submit_Queue submit) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("insert into submit_queue "
+					+ "(`PROJECT_ID`, `VIDEO_ID`, `DESCRIPTION`, `VIDEO_VOLUME`, `CREATED_DAY`, `STATUS`) "
+					+ "VALUES (?, ?, ?, ?, ?, ?)");
+			
+			params.add(submit.getProject().getId());
+			params.add(submit.getVideo().getId());
+			params.add(submit.getDescription());
+			params.add(submit.getVolume());
+			params.add(new Date());
+			params.add(submit.getStatus());
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			
+			if(Success == 0)
+				return null;
+			return getSubmitbyId(submit.getProject().getId(), submit.getVideo().getId()).get(0);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public Submit_Queue updateSubmit_Queue(Submit_Queue submit) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("update submit_queue set "
+					+ "`DESCRIPTION`=?, `VIDEO_VOLUME`=?, `CREATED_DAY`=?, `STATUS`=? "
+					+ "WHERE `PROJECT_ID`=? and`VIDEO_ID`=?");
+
+			params.add(submit.getDescription());
+			params.add(submit.getVolume());
+			params.add(submit.getCreated_day());
+			params.add(submit.getStatus());
+			params.add(submit.getProject().getId());
+			params.add(submit.getVideo().getId());
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return null;
+			return getSubmitbyId(submit.getProject().getId(), submit.getVideo().getId()).get(0);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public String deleteSubmitbyProjectId(String pid) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("delete from submit where `PROJECT_ID`=?");
+			params.add(pid);
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return "error";
+			return "success";
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public String deleteSubmitbyVideoId(String vid) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			StringBuilder sql = new StringBuilder();
+			List<Object> params = new ArrayList<Object>();
+			sql.append("delete from submit where `VIDEO_ID`=?");
+			params.add(vid);
+			
+			//execute querry with sql and params
+			preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return "error";
+			return "success";
+		} catch (Exception e) {
+			throw e;
+		} finally {
 			if(preparedStatement != null) {
 				preparedStatement.close();
 			}

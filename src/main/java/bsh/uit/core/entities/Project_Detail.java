@@ -21,6 +21,7 @@ public class Project_Detail implements Serializable{
 	//Thu tu sap xep video
 	private int order;
 	
+	private int time;
 
 	public Project getProject() {
 		return project;
@@ -61,4 +62,13 @@ public class Project_Detail implements Serializable{
 	public void setOrder(int order) {
 		this.order = order;
 	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+	
 }

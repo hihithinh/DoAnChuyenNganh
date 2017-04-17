@@ -16,4 +16,20 @@ public class VideoMgr {
 	public Video getVideoById(String id) throws Exception {
 		return videoDao.getVideobyId(id);
 	}
+	
+	public List<Video> getVideobyUserId(String uid) throws Exception {
+		return videoDao.getVideobyUserId(uid);
+	}
+	
+	public Video addVideo(Video video) throws Exception {
+		return videoDao.addVideo(video);
+	}
+	
+	public Video updateVideo(Video video) throws Exception {
+		return videoDao.updateVideo(video);
+	}
+	
+	public String deleteVideo(String id) throws Exception {
+		return videoDao.deleteVideo(id);
+	}
 }

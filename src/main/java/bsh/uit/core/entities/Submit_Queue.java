@@ -1,6 +1,7 @@
 package bsh.uit.core.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Submit_Queue implements Serializable{
 
@@ -19,8 +20,10 @@ public class Submit_Queue implements Serializable{
 	private int volume;
 	
 	//Ngay gui Submit
-	private Datetime created_day;
+	private Date created_day;
 
+	private int status;
+	
 	public Project getProject() {
 		return project;
 	}
@@ -53,11 +56,20 @@ public class Submit_Queue implements Serializable{
 		this.volume = volume;
 	}
 
-	public Datetime getCreated_day() {
+	public Date getCreated_day() {
 		return created_day;
 	}
 
-	public void setCreated_day(Datetime created_day) {
+	public void setCreated_day(Date created_day) {
 		this.created_day = created_day;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
 }

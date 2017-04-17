@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import bsh.uit.core.entities.Project_Detail;
 import bsh.uit.core.entities.User;
 import bsh.uit.core.sql.MySQL;
 
@@ -19,14 +21,15 @@ public class UserDAO {
 		typeDao = new TypeDAO();
     }
     
-    public User SQLtoUser(ResultSet resultSet) throws Exception {
-    	User user = new User();
+    public List<User> SQLtoUser(ResultSet resultSet) throws Exception {
+    	List<User> lstUser = new ArrayList<User>();;
     	try{
     		while (resultSet.next()){
+    			User user = new User();
 		    	user.setAccount(resultSet.getString("user_account"));
 		    	user.setAddress(resultSet.getString("address"));
 		    	user.setAvatar(resultSet.getString("avatar"));
-		    	//user.setCreated_day(resultSet.getDate("user_account"));
+		    	user.setCreated_day(resultSet.getDate("created_day"));
 		    	user.setFbtoken(resultSet.getString("fb_token"));
 		    	user.setGgtoken(resultSet.getString("gg_token"));
 		    	user.setId(resultSet.getString("user_id"));
@@ -34,11 +37,12 @@ public class UserDAO {
 		    	user.setPassword(resultSet.getString("password"));
 		    	user.setStatus(resultSet.getInt("status"));
 		    	user.setUser_type(typeDao.getTypebyId(resultSet.getString("user_type")));
+		    	lstUser.add(user);
     		}
     	} catch (Exception e) {
     		throw e;
     	}
-    	return user;
+    	return lstUser;
     }
     
     public User loginUser(String account, String password) throws Exception {
@@ -64,7 +68,7 @@ public class UserDAO {
 			}
 			resultSet = preparedStatement.executeQuery();
 			
-			return SQLtoUser(resultSet);
+			return SQLtoUser(resultSet).get(0);
     	} catch (Exception e) {
             throw e;
 	    } finally {
@@ -102,13 +106,187 @@ public class UserDAO {
 			}
 			resultSet = preparedStatement.executeQuery();
 			
-			return SQLtoUser(resultSet);
+			return SQLtoUser(resultSet).get(0);
     	} catch (Exception e) {
             throw e;
 	    } finally {
 			if(resultSet != null) {
 				resultSet.close();
 			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+    }
+    
+    public User getLastUser() throws Exception {
+    	Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			
+    		StringBuilder sql = new StringBuilder();
+	        sql.append("select * from user "
+	        		+ "order by user_id desc "
+	        		+ "limit 1;");
+	        
+	      //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+
+			resultSet = preparedStatement.executeQuery();
+			
+			return SQLtoUser(resultSet).get(0);
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(resultSet != null) {
+				resultSet.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+    }
+    
+    public User addUser(User user) throws Exception {
+    	Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+	    	StringBuilder sql = new StringBuilder();
+	    	List<Object> params = new ArrayList<Object>();
+	        sql.append("insert into user"
+	        		+ " (`USER_ID`, `USER_ACCOUNT`, `PASSWORD`, `FB_TOKEN`, `GG_TOKEN`, `USER_NAME`, `ADDRESS`, `AVATAR`, `USER_TYPE`, `CREATED_DAY`, `STATUS`)"
+	        		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	        
+	        //Get last ID then +1
+	        User usr = new User();
+	        usr = getLastUser();
+	        String lastId = "U" + String.valueOf(Integer.parseInt(usr.getId().substring(1)) + 1);
+	        
+	        params.add(lastId);
+	        params.add(user.getAccount());
+	        params.add(user.getPassword());
+	        params.add(user.getFbtoken());
+	        params.add(user.getGgtoken());
+	        params.add(user.getName());
+	        params.add(user.getAddress());
+	        params.add(user.getAvatar());
+	        params.add(user.getUser_type().getId());
+	        params.add(new Date());
+	        params.add(user.getStatus());
+	        
+	        //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			
+			if(Success == 0)
+				return null;
+			return getUserbyId(lastId);
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+    }
+    
+    public User updateUser(User user) throws Exception {
+    	Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+	    	StringBuilder sql = new StringBuilder();
+	    	List<Object> params = new ArrayList<Object>();
+	        sql.append("update user set `USER_ACCOUNT`=?, PASSWORD=?, `FB_TOKEN`=?, `GG_TOKEN`=?, "
+	        		+ "`USER_NAME`=?, `ADDRESS`=?, `AVATAR`=?, `USER_TYPE`=?, `CREATED_DAY`=?, `STATUS`=? "
+	        		+ "WHERE `USER_ID`=?");
+
+	        params.add(user.getAccount());
+	        params.add(user.getPassword());
+	        params.add(user.getFbtoken());
+	        params.add(user.getGgtoken());
+	        params.add(user.getName());
+	        params.add(user.getAddress());
+	        params.add(user.getAvatar());
+	        params.add(user.getUser_type().getId());
+	        params.add(user.getCreated_day());
+	        params.add(user.getStatus());
+	        params.add(user.getId());
+	        
+	        //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return null;
+			return getUserbyId(user.getId());
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+    }
+    
+    public String deleteUser(String id, String password) throws Exception {
+    	Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		int Success = 0;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+	    	StringBuilder sql = new StringBuilder();
+	    	List<Object> params = new ArrayList<Object>();
+	        sql.append("delete from user where `USER_ID`=? and `PASSWORD`=?");
+	        params.add(id);
+	        params.add(password);
+	        
+	        //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			Success = preparedStatement.executeUpdate();
+			if(Success == 0)
+				return "error";
+			return "success";
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
 			if(preparedStatement != null) {
 				preparedStatement.close();
 			}
