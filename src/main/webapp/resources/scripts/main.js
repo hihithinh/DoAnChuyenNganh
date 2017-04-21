@@ -1,5 +1,3 @@
-var user;
-//Xu ly login
 function Login() {
 	user = null;
 	$.ajax({
@@ -13,7 +11,6 @@ function Login() {
 				$('#login').hide();
 				document.getElementById('hello').style.color = "#000000";
 				$('#hello').text("Xin chào, " + titleCase(res.user.name));
-				user = res.user;
 			} else {
 				document.getElementById('hello').style.color = "#ff0000";
 				$('#hello').text("Tài khoản hoặc mật khẩu sai!");
@@ -77,14 +74,14 @@ function titleCase(str) {
 
 //Xu ly noi dung cho view
 var str;
-function loadNewsFeed() {
+function loadNewsFeed(userId) {
 	str = "";
 	$.ajax({
 		url: "pjnewsfeed",
 		type : "post",
 		dateType:"json",
 		contentType:"application/json",
-		data: JSON.stringify({"user_id":"U1"}),
+		data: JSON.stringify({"user_id":userId}),
 		success : function (res) {
 			for(var i=0; i<res.lstProject.length; i++) {
 
@@ -121,7 +118,14 @@ function loadNewsFeed() {
 	});
 }
 
-$( document ).ready(loadNewsFeed()); 
+$( document ).ready( function(){
+	if(loguser != null) {
+		$('#login').hide();
+		document.getElementById('hello').style.color = "#000000";
+		$('#hello').text("Xin chào, " + titleCase(loguser.name));
+	}
+	loadNewsFeed(loguser == null ? "U1" : loguser.id);
+});
 
 //2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');

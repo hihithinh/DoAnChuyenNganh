@@ -6,14 +6,35 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Kết nối người chơi nhạc</title>
+		<!-- Style -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="resources/styles/main.css">
+		<!-- Script -->
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="resources/scripts/studio.js"></script>
-		<link rel="stylesheet" href="resources/styles/main.css">
 	</head>
 	<body>
+		<script>
+	  		window.fbAsyncInit = function() {
+	    		FB.init({
+	      			appId      : '1253610298021820',
+	      			xfbml      : true,
+	      			version    : 'v2.8'
+	    		});
+	    		FB.AppEvents.logPageView();
+	  		};
+	
+	  		(function(d, s, id){
+	     		var js, fjs = d.getElementsByTagName(s)[0];
+	     		if (d.getElementById(id)) {return;}
+	     			js = d.createElement(s); js.id = id;
+	     			js.src = "//connect.facebook.net/en_US/sdk.js";
+	     			fjs.parentNode.insertBefore(js, fjs);
+	   			}(document, 'script', 'facebook-jssdk'));
+		</script>
 		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
 		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
 		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
@@ -126,6 +147,7 @@
 		}
 		
 		$( document ).ready(geturl());
+		var loguser = JSON.parse('<%= session.getAttribute("username") %>');
 		</script>
 </body>
 </html>

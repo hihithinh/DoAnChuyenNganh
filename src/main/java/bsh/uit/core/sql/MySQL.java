@@ -13,7 +13,8 @@ public class MySQL implements Serializable{
 	
 	private String mysql = dbUrl+dbName+"?"
             + "user="+username
-            +"&password="+password;
+            +"&password="+password
+            +"&verifyServerCertificate=false&useSSL=true";
 
 	public String getMysql() {
 		return mysql;

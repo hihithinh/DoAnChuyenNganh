@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>Ứng dụng kết nối người chơi nhạc</title>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<%-- <sj:head jqueryui="true" jquerytheme="cupertino"/> --%>
 		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
     	<script type="text/javascript" src="resources/scripts/main.js"></script>
@@ -12,6 +12,24 @@
 	</head>
  
 	<body>
+		<script>
+	  		window.fbAsyncInit = function() {
+	    		FB.init({
+	      			appId      : '1253610298021820',
+	      			xfbml      : true,
+	      			version    : 'v2.8'
+	    		});
+	    		FB.AppEvents.logPageView();
+	  		};
+	
+	  		(function(d, s, id){
+	     		var js, fjs = d.getElementsByTagName(s)[0];
+	     		if (d.getElementById(id)) {return;}
+	     			js = d.createElement(s); js.id = id;
+	     			js.src = "//connect.facebook.net/en_US/sdk.js";
+	     			fjs.parentNode.insertBefore(js, fjs);
+	   			}(document, 'script', 'facebook-jssdk'));
+		</script>
 		<div id="header" class="header">
 			<div id="btnHome" class="btnHome"></div>
 			<div id="btnConfig" class="btnConfig"></div>
@@ -24,16 +42,13 @@
 					<input type="button" id="btnLogin" value="Đăng nhập" onclick="Login()"/>
 				</div>
 				<div id="hello"></div>
-			</div>
+				</div>
 		</div>
 		<div id="content" class="content">
 		</div>
+		<!-- <input type="hidden" value=${sessionScope.username} id="sessionUser"/> -->
 		<script type="text/javascript">
-			/* $('.fileUpload').fileUploader({
-		          autoUpload: false,
-		          buttonUpload: '#px-submit',
-		          buttonClear: '#px-clear',
-			}); */
+			var loguser = JSON.parse('<%= session.getAttribute("username") %>');
 		</script>
 	</body>
 </html>

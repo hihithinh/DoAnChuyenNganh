@@ -126,7 +126,7 @@ public class VideoDAO {
 			
     		StringBuilder sql = new StringBuilder();
 	        sql.append("select * from video "
-	        		+ "order by video_id desc "
+	        		+ "order by created_day desc "
 	        		+ "limit 1");
 	        
 	      //execute querry with sql and params

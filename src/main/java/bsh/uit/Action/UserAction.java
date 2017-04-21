@@ -1,14 +1,20 @@
 package bsh.uit.Action;
  
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import bsh.uit.core.dao.UserDAO;
 import bsh.uit.core.entities.User;
 import bsh.uit.core.mgr.UserMgr;
 
-public class UserAction extends ActionSupport {
+public class UserAction extends ActionSupport implements SessionAware{
  
    private static final long serialVersionUID = 7299264265184515893L;
    private String account;
@@ -16,7 +22,8 @@ public class UserAction extends ActionSupport {
    private User user;
    private UserMgr userMgr;
    private boolean loginState;
-
+   private Map<String, Object> sessionMap;
+   
    @Override
    public String execute() throws Exception {
            return SUCCESS;
@@ -25,9 +32,12 @@ public class UserAction extends ActionSupport {
    public UserAction() throws ClassNotFoundException, SQLException {
 	   user = new User();
 	   userMgr = new UserMgr();
+	   sessionMap = ActionContext.getContext().getSession();
    }
  
    public String Login() throws Exception {
+	   ObjectMapper mapper = new ObjectMapper();
+       
 	   try {
 
 		   user = userMgr.loginUser(account, password);
@@ -36,6 +46,8 @@ public class UserAction extends ActionSupport {
 			   loginState = false;
 		   } else {
 			   loginState = true;
+			   user.setPassword(null);
+			   sessionMap.put("username", mapper.writeValueAsString(user));
 		   }
 		   
 		   return SUCCESS;
@@ -43,6 +55,14 @@ public class UserAction extends ActionSupport {
 	   } catch (Exception e) {
 		   throw e;
 	   }
+   }
+   
+   public String Logout() {
+       // remove userName from the session
+       if (sessionMap.containsKey("username")) {
+           sessionMap.remove("username");
+       }
+       return SUCCESS;
    }
 
 	public User getUser() {
@@ -72,5 +92,10 @@ public class UserAction extends ActionSupport {
 	
 	public boolean getLoginState() {
 		return loginState;
+	}
+	
+	@Override
+	public void setSession(Map<String, Object> sessionMap) {
+		this.sessionMap = sessionMap;	
 	}
 }
