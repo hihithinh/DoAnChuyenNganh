@@ -26,7 +26,7 @@ public class SubmitDAO {
 		List<Submit_Queue> lstSubmit = new ArrayList<Submit_Queue>();
 		while (resultSet.next()){
 			Submit_Queue submit = new Submit_Queue();
-			submit.setCreated_day(null);
+			submit.setCreated_day(resultSet.getTimestamp("created_day"));
 			submit.setDescription(resultSet.getString("description"));
 			submit.setProject(projectDao.getProjectbyId(resultSet.getString("project_id")));
 			submit.setVideo(videoDao.getVideobyId(resultSet.getString("video_id")));

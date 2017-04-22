@@ -14,7 +14,6 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
-		<script type="text/javascript" src="resources/scripts/studio.js"></script>
 	</head>
 	<body>
 		<script>
@@ -35,6 +34,7 @@
 	     			fjs.parentNode.insertBefore(js, fjs);
 	   			}(document, 'script', 'facebook-jssdk'));
 		</script>
+		<div style="display:none" id="page">studio</div>
 		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
 		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
 		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
@@ -49,7 +49,7 @@
 					<input type="text" id="account" name="account" size="20" />
 					Mật khẩu:
 					<input type="password" id="password" name="password"  size="20" />
-					<input type="button" id="btnLogin" value="Đăng nhập" onclick="Login()"/>
+					<input type="button" id="btnLogin" value="Đăng nhập" onclick="home.Login()"/>
 				</div>
 				<div id="hello"></div>
 			</div>
@@ -69,85 +69,17 @@
 					name="instrument"
 					value="1" />
 				<s:textarea name="description" label="Mô tả" cols="34" rows="10" />
-		        <s:submit value="Đăng Video" align="center" />
-		        
+		        <s:submit value="Đăng Video" align="left" id="btnUploadSubmit"/>
 			</s:form>
+			<input type="button" id="btnAlertLogin" value="Đăng Video"  onclick="studio.checkLogin()"/>
 		</div>
 		
-		<button id="btnCombile" onclick="doCombile(pjId.innerHTML)">Combile</button>
+		<button id="btnCombile" onclick="studio.doCombile(pjId.innerHTML)">Combile</button>
 		<button id="btnUpload">Tham gia</button>
 		
 		<script>
-		//Xu ly title
-		var rev = "fwd";
-		function titlebar(val) {
-			var msg  = pjName.innerHTML + "-" + pjUser.innerHTML;
-			var res = " ";
-			var speed = 100;
-			var pos = val;
-					
-			msg = "   ♩♬♪♫ "+msg+" ♩♪♫♬";
-			var le = msg.length;
-			if(rev == "fwd"){
-				if(pos < le){
-					pos = pos+1;
-					scroll = msg.substr(0,pos);
-					document.title = scroll;
-					timer = window.setTimeout("titlebar("+pos+")",speed);
-				} else {
-					rev = "bwd";
-					timer = window.setTimeout("titlebar("+pos+")",speed);
-				}
-			} else {
-				if(pos > 0){
-					pos = pos-1;
-					var ale = le-pos;
-					scrol = msg.substr(ale,le);
-					document.title = scrol;
-					timer = window.setTimeout("titlebar("+pos+")",speed);
-				} else {
-					rev = "fwd";
-					timer = window.setTimeout("titlebar("+pos+")",speed);
-				}    
-			}
-		}
-		titlebar(0);
-		
-		function geturl(){
-			document.getElementById('pid').value = pjId.innerHTML;
-			/* if(user.id != null)
-			document.getElementById('uid').value = user.id; */
-			document.getElementById('uid').value = "U2";
-			$.ajax({
-				url: "getProjectDetail",
-				type : "post",
-				dateType:"json",
-				contentType:"application/json",
-				data: JSON.stringify({"pid":pjId.innerHTML}),
-				success : function (res) {
-					var url='https://viewsync.net/watch?';
-					var firstvideo = true;
-					for(var i = 0; i < res.lstDetail.length; i++) {
-						if(res.lstDetail[i].video_type == 1 || pjStatus.innerHTML == "0" || pjStatus.innerHTML == 0) {
-							if(firstvideo) {
-								url = url + 'v=' +res.lstDetail[i].video.link + '&t=0';
-								firstvideo = false;
-							} else {
-								url = url + '&v=' + res.lstDetail[i].video.link + '&t=0';
-							}
-						}
-					}
-					url = url +'&mode=solo';
-					document.getElementById('studio').src = url;
-				},
-				error:function(){
-					alert("Xảy ra lỗi khi lấy dữ liệu");	
-				}
-			});
-		}
-		
-		$( document ).ready(geturl());
 		var loguser = JSON.parse('<%= session.getAttribute("username") %>');
 		</script>
+		<script type="text/javascript" src="resources/scripts/main.js"></script>
 </body>
 </html>

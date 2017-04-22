@@ -26,7 +26,7 @@ public class NotifyDAO {
 		List<Notify> lstNotify = new ArrayList<Notify>();
 		while (resultSet.next()){
 			Notify notify = new Notify();
-			notify.setCreated_day(null);
+			notify.setCreated_day(resultSet.getTimestamp("created_day"));
 			notify.setDescription(resultSet.getString("description"));
 			notify.setId(resultSet.getString("notify_id"));
 			notify.setProject(projectDao.getProjectbyId(resultSet.getString("project_id")));

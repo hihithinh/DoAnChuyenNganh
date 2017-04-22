@@ -62,8 +62,11 @@ body {
 	text-align: center;
 }
 
+.pjtime {
+	float: left;
+}
 .pjuser {
-	text-align: right;
+	float:right;
 }
 
 .pjdescription {

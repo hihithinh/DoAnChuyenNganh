@@ -26,7 +26,7 @@ public class VideoDAO {
 		List<Video> lstVideo = new ArrayList<Video>();
 		while (resultSet.next()){
 			Video video = new Video();
-			video.setCreated_day(null);
+			video.setCreated_day(resultSet.getTimestamp("created_day"));
 			video.setDescription(resultSet.getString("description"));
 			video.setId(resultSet.getString("video_id"));
 			video.setInstrument(typeDao.getTypebyId(resultSet.getString("instrument")));

@@ -25,7 +25,7 @@ public class RatingDAO {
 		List<Rating> lstRating = new ArrayList<Rating>();
 		while (resultSet.next()){
 			Rating rating = new Rating();
-			rating.setCreated_day(null);
+			rating.setCreated_day(resultSet.getTimestamp("created_day"));
 			rating.setDescription(resultSet.getString("description"));
 			rating.setId(resultSet.getString("notify_id"));
 			rating.setParent(getRatingbyId(resultSet.getString("parent_id")));

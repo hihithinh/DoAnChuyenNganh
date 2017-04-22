@@ -27,7 +27,7 @@ public class ProjectDAO {
 		while (resultSet.next()){
 			Project project = new Project();
 			project.setArtist_name(resultSet.getString("artist_name"));
-			project.setCreated_day(null);
+			project.setCreated_day(resultSet.getTimestamp("Created_day"));
 			project.setDescription(resultSet.getString("description"));
 			project.setId(resultSet.getString("project_id"));
 			project.setMusic_type(typeDao.getTypebyId(resultSet.getString("music_type")));
@@ -41,7 +41,7 @@ public class ProjectDAO {
 			project.setNeedViolon(resultSet.getInt("needViolon"));
 			project.setNeedVocal(resultSet.getInt("needVocal"));
 			project.setStatus(resultSet.getInt("status"));
-			project.setUpdate_day(null);
+			project.setUpdate_day(resultSet.getTimestamp("update_day"));
 			project.setUser(userDao.getUserbyId(resultSet.getString("user_id")));
 			lstProject.add(project);
 		}
