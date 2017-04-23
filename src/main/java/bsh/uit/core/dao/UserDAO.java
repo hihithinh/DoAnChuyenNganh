@@ -23,25 +23,21 @@ public class UserDAO {
     
     public List<User> SQLtoUser(ResultSet resultSet) throws Exception {
     	List<User> lstUser = new ArrayList<User>();;
-    	try{
-    		while (resultSet.next()){
-    			User user = new User();
-		    	user.setAccount(resultSet.getString("user_account"));
-		    	user.setAddress(resultSet.getString("address"));
-		    	user.setAvatar(resultSet.getString("avatar"));
-		    	user.setCreated_day(resultSet.getDate("created_day"));
-		    	user.setFbtoken(resultSet.getString("fb_token"));
-		    	user.setGgtoken(resultSet.getString("gg_token"));
-		    	user.setId(resultSet.getString("user_id"));
-		    	user.setName(resultSet.getString("user_name"));
-		    	user.setPassword(resultSet.getString("password"));
-		    	user.setStatus(resultSet.getInt("status"));
-		    	user.setUser_type(typeDao.getTypebyId(resultSet.getString("user_type")));
-		    	lstUser.add(user);
-    		}
-    	} catch (Exception e) {
-    		throw e;
-    	}
+		while (resultSet.next()){
+			User user = new User();
+	    	user.setAccount(resultSet.getString("user_account"));
+	    	user.setAddress(resultSet.getString("address"));
+	    	user.setAvatar(resultSet.getString("avatar"));
+	    	user.setCreated_day(resultSet.getDate("created_day"));
+	    	user.setFbtoken(resultSet.getString("fb_token"));
+	    	user.setGgtoken(resultSet.getString("gg_token"));
+	    	user.setId(resultSet.getString("user_id"));
+	    	user.setName(resultSet.getString("user_name"));
+	    	user.setPassword(resultSet.getString("password"));
+	    	user.setStatus(resultSet.getInt("status"));
+	    	user.setUser_type(typeDao.getTypebyId(resultSet.getString("user_type")));
+	    	lstUser.add(user);
+		}
     	return lstUser;
     }
     

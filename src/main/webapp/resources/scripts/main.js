@@ -40,6 +40,7 @@ $( document ).ready( function(){
 		$('#hello').text("Xin chào, " + home.titleCase(loguser.name));
 		if(document.getElementById('page').innerHTML == "studio") {
 			document.getElementById("btnAlertLogin").style.display = "none";
+			document.getElementById('uid').value = loguser.id;
 		}
 	} else if(document.getElementById('page').innerHTML == "studio") {
 		document.getElementById("btnUploadSubmit").style.display = "none";
