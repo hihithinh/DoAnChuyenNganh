@@ -30,7 +30,7 @@
 	   			}(document, 'script', 'facebook-jssdk'));
 		</script>
 		<div style="display:none" id="page">home</div>
-		<div id="header" class="header">
+		<div id="header" class="container-fluid header">
 			<div id="btnHome" class="btnHome"></div>
 			<div id="btnConfig" class="btnConfig"></div>
 			<div id="user" class="user">

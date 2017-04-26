@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,6 +58,26 @@ public class UserAction extends ActionSupport implements SessionAware{
 	   } catch (Exception e) {
 		   throw e;
 	   }
+   }
+   
+   public String viewUserInfo() throws Exception {
+	   if(account==null) {
+			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
+	                .get(ServletActionContext.HTTP_REQUEST);
+	                account = request.getParameter("account");
+		}
+	   user = userMgr.getUserbyName(account);
+	   return SUCCESS;
+   }
+   
+   public String createNewUser() throws Exception {
+	   user = userMgr.addUser(user);
+	   return SUCCESS;
+   }
+   
+   public String updateUserInfo() throws Exception {
+	   user = userMgr.updateUser(user);
+	   return SUCCESS;
    }
    
    public String Logout() {

@@ -13,8 +13,10 @@ import com.opensymphony.xwork2.ActionSupport;
 import bsh.uit.core.entities.Project;
 import bsh.uit.core.entities.Project_Detail;
 import bsh.uit.core.entities.User;
+import bsh.uit.core.entities.Video;
 import bsh.uit.core.mgr.DetailMgr;
 import bsh.uit.core.mgr.ProjectMgr;
+import bsh.uit.core.mgr.VideoMgr;
 
 public class ProjectAction  extends ActionSupport {
 
@@ -22,13 +24,17 @@ public class ProjectAction  extends ActionSupport {
 	private String user;
 	private ProjectMgr projectMgr;
 	private DetailMgr detailMgr;
+	private VideoMgr videoMgr;
 	private ArrayList<Project> lstProject;
 	private ArrayList<Project_Detail> lstDetail;
 	private String pid;
+	private Video backingTrack;
+	private Project newProject;
 	
 	public ProjectAction() {
 		projectMgr = new ProjectMgr();
 		detailMgr = new DetailMgr();
+		videoMgr = new VideoMgr();
 	}
 	
 	public String getNewsFeed() throws Exception {
@@ -65,6 +71,24 @@ public class ProjectAction  extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	public String createProject() throws Exception {
+		if(backingTrack == null){
+			return "new";
+		}
+		backingTrack = videoMgr.addVideo(backingTrack);
+		newProject = projectMgr.addProject(newProject);
+		Project_Detail bktDetail = new Project_Detail();
+		bktDetail.setOrder(0);
+		bktDetail.setProject(newProject);
+		bktDetail.setTime(0);
+		bktDetail.setVideo(backingTrack);
+		bktDetail.setVideo_type(0);
+		bktDetail.setVolume(100);
+		detailMgr.addProject_Detail(bktDetail);
+		pid = newProject.getId();
+		return SUCCESS;
+	}
+	
 	public String doCombile() {
 		//Giao tiep giua shell va java
 		//su dung bien pid
@@ -87,4 +111,21 @@ public class ProjectAction  extends ActionSupport {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+
+	public Video getBackingTrack() {
+		return backingTrack;
+	}
+
+	public void setBackingTrack(Video backingTrack) {
+		this.backingTrack = backingTrack;
+	}
+
+	public Project getNewProject() {
+		return newProject;
+	}
+
+	public void setNewProject(Project newProject) {
+		this.newProject = newProject;
+	}
+	
 }

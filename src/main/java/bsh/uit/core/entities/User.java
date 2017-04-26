@@ -39,6 +39,18 @@ public class User implements Serializable {
 	//Trang thai tai khoan
 	private int status;
 
+	//Kha nang am nhac
+	private String ability;
+	
+	//Gioi tinh
+	private String gender;
+	
+	//Ngay sinh
+	private Date birthday;
+	
+	//Tu gioi thieu
+	private String description;
+	
 	public String getId() {
 		return id;
 	}
@@ -126,4 +138,37 @@ public class User implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public String getAbility() {
+		return ability;
+	}
+
+	public void setAbility(String ability) {
+		this.ability = ability;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

@@ -25,17 +25,22 @@ public class UserDAO {
     	List<User> lstUser = new ArrayList<User>();;
 		while (resultSet.next()){
 			User user = new User();
+			user.setAbility(resultSet.getString("ability"));
 	    	user.setAccount(resultSet.getString("user_account"));
 	    	user.setAddress(resultSet.getString("address"));
 	    	user.setAvatar(resultSet.getString("avatar"));
+	    	user.setBirthday(resultSet.getDate("birthday"));
 	    	user.setCreated_day(resultSet.getDate("created_day"));
+	    	user.setDescription(resultSet.getString("description"));
 	    	user.setFbtoken(resultSet.getString("fb_token"));
+	    	user.setGender(resultSet.getString("gender"));
 	    	user.setGgtoken(resultSet.getString("gg_token"));
 	    	user.setId(resultSet.getString("user_id"));
 	    	user.setName(resultSet.getString("user_name"));
 	    	user.setPassword(resultSet.getString("password"));
 	    	user.setStatus(resultSet.getInt("status"));
 	    	user.setUser_type(typeDao.getTypebyId(resultSet.getString("user_type")));
+
 	    	lstUser.add(user);
 		}
     	return lstUser;
@@ -118,6 +123,44 @@ public class UserDAO {
 		}
     }
     
+    public User getUserbyName(String name) throws Exception {
+    	Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			
+    		StringBuilder sql = new StringBuilder();
+	    	List<Object> params = new ArrayList<Object>();
+	        sql.append("select * from user where user_name=?");
+	        params.add(name);
+	        
+	      //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			resultSet = preparedStatement.executeQuery();
+			
+			return SQLtoUser(resultSet).get(0);
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(resultSet != null) {
+				resultSet.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+    }
+    
     public User getLastUser() throws Exception {
     	Connection connect = null;
 		PreparedStatement preparedStatement = null;
@@ -166,8 +209,8 @@ public class UserDAO {
 	    	StringBuilder sql = new StringBuilder();
 	    	List<Object> params = new ArrayList<Object>();
 	        sql.append("insert into user"
-	        		+ " (`USER_ID`, `USER_ACCOUNT`, `PASSWORD`, `FB_TOKEN`, `GG_TOKEN`, `USER_NAME`, `ADDRESS`, `AVATAR`, `USER_TYPE`, `CREATED_DAY`, `STATUS`)"
-	        		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	        		+ " (`USER_ID`, `USER_ACCOUNT`, `PASSWORD`, `FB_TOKEN`, `GG_TOKEN`, `USER_NAME`, `ADDRESS`, `AVATAR`, `USER_TYPE`, `CREATED_DAY`, `STATUS`, `ABILITY`, `GENDER`, `BIRTHDAY`, `DESCRIPTION`)"
+	        		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	        
 	        //Get last ID then +1
 	        User usr = new User();
@@ -185,6 +228,10 @@ public class UserDAO {
 	        params.add(user.getUser_type().getId());
 	        params.add(new Date());
 	        params.add(user.getStatus());
+	        params.add(user.getStatus());
+	        params.add(user.getAbility());
+	        params.add(user.getBirthday());
+	        params.add(user.getDescription());
 	        
 	        //execute querry with sql and params
 	        preparedStatement = connect.prepareStatement(sql.toString());
@@ -221,6 +268,7 @@ public class UserDAO {
 	    	List<Object> params = new ArrayList<Object>();
 	        sql.append("update user set `USER_ACCOUNT`=?, PASSWORD=?, `FB_TOKEN`=?, `GG_TOKEN`=?, "
 	        		+ "`USER_NAME`=?, `ADDRESS`=?, `AVATAR`=?, `USER_TYPE`=?, `CREATED_DAY`=?, `STATUS`=? "
+	        		+ "`ABILITY`=?, `GENDER`=?, `BIRTHDAY`=?, `DESCRIPTION`=?"
 	        		+ "WHERE `USER_ID`=?");
 
 	        params.add(user.getAccount());
@@ -233,6 +281,10 @@ public class UserDAO {
 	        params.add(user.getUser_type().getId());
 	        params.add(user.getCreated_day());
 	        params.add(user.getStatus());
+	        params.add(user.getAbility());
+	        params.add(user.getGender());
+	        params.add(user.getBirthday());
+	        params.add(user.getDescription());
 	        params.add(user.getId());
 	        
 	        //execute querry with sql and params

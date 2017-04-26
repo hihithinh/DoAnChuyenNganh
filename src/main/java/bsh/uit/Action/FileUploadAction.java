@@ -57,6 +57,7 @@ public class FileUploadAction extends ActionSupport {
     	} catch (IOException e)  {
     		e.printStackTrace();
     		addActionError(e.getMessage());
+    		throw e;
     	}
     	
     	return SUCCESS;

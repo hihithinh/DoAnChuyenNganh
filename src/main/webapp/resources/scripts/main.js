@@ -1,7 +1,7 @@
 //Xu ly title
 var rev = "fwd";
 function titlebar(val) {
-	var msg  = document.getElementById('page').innerHTML == "home" ? "Ứng dụng kết nối người chơi nhạc" : document.getElementById('pjName').innerHTML + "-" + document.getElementById('pjUser').innerHTML;
+	var msg  = document.getElementById('page').innerHTML == "studio" ? document.getElementById('pjName').innerHTML + "-" + document.getElementById('pjUser').innerHTML : "Ứng dụng kết nối người chơi nhạc";
 	var res = " ";
 	var speed = 100;
 	var pos = val;
@@ -45,7 +45,27 @@ $( document ).ready( function(){
 	} else if(document.getElementById('page').innerHTML == "studio") {
 		document.getElementById("btnUploadSubmit").style.display = "none";
 	}
-	document.getElementById('page').innerHTML == "home" ? home.loadNewsFeed(loguser == null ? "U2" : loguser.id) : studio.geturl();
+	if(document.getElementById('page').innerHTML == "home") {
+		home.loadNewsFeed(loguser == null ? "U2" : loguser.id);
+	} else if(document.getElementById('page').innerHTML == "studio") {
+		studio.geturl();
+	} else if(document.getElementById('page').innerHTML == "create_studio") {
+		studio.handleAPILoaded();
+	}
+	$(window).resize(function() {
+		console.log($(window).width());
+		if($(window).width() < 1000) {
+			$('#content').css({"margin-left": "auto", "margin-right": "auto"});
+			$('#pjinfo').css({"margin-left": "0px", "margin-top": "300px"});
+			$('#btnStudio').css({"bottom": "", "right": "5px", "top": "0px"});
+		} else if($(window).width() < 1300) {
+			$('#content').css({"margin-left": "auto", "margin-right": "auto"});
+		} else {
+			$('#content').css({"margin-left": "150px", "margin-right": "150px"});
+			$('#pjinfo').css({"margin-left": "400px", "margin-top": "0px"});
+			$('#btnStudio').css({"bottom": "10px", "right": "10px", "top": ""});
+		}
+	});
 });
 
 var home = {
@@ -147,7 +167,7 @@ var home = {
 				alert("Xảy ra lỗi khi đăng nhập");	
 			}
 		});
-	}
+	},
 }
 
 var studio = {
@@ -198,6 +218,52 @@ var studio = {
 	},
 	checkLogin: function () {
 		alert('Bạn phải đăng nhập trước!');
+	},
+	// After the API loads, call a function to enable the search box.
+	handleAPILoaded: function () {
+	  $('#btnSearch').attr('disabled', false);
+	},
+
+	searchResult: null,
+	
+	search: function () {
+	  var q = $('#txtSearch').val();
+	  var request = gapi.client.youtube.search.list({
+	    q: q,
+	    part: 'id, snippet',
+        type: 'video'
+	  });
+
+	  request.execute(function(response) {
+	    var str = JSON.stringify(response.result);
+	    studio.searchResult = response.result;
+	    var htmlstr = '<div id="selected" style="font-color:white"></div><form><input type="button" value="ok cái này" onclick="studio.setBackingTrack()"/>';
+	    for (var i = 0; i < response.result.items.length; i++) {
+	    	htmlstr = htmlstr+'<div id="ytItem'+i+'"><iframe width="560" height="315" src="https://www.youtube.com/embed/' + response.result.items[i].id.videoId +'" frameborder="0" allowfullscreen></iframe></div>';
+	    	htmlstr = htmlstr+'<input type="radio" name="item" value="'+response.result.items[i].id.videoId+'" onclick="studio.checkRadioBKT('+i+')" />';
+	    }
+	    htmlstr = htmlstr + '</form>'
+	    $('#searchContent').html(htmlstr);
+	  });
+	},
+	checkRadioBKT: function(itemNumber) {
+		$('#selected').html('Đã chọn:'+studio.searchResult.items[itemNumber].snippet.title);
+		studio.searchResult.checked = itemNumber;
+	},
+	setBackingTrack: function() {
+		$.ajax({
+			url: "createStudio",
+			type : "post",
+			dateType:"json",
+			contentType:"application/json",
+			data: JSON.stringify({"backingTrack":{"user":{"id":"U1"},"link":studio.searchResult.items[studio.searchResult.checked].id.videoId, "instrument":{"id":"T299"}, "description": loguser.id}}),
+			success : function (res) {
+				window.location.replace("getProjectStudio?pid="+res.pid);
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi lấy dữ liệu");	
+			}
+		});
 	}
 }
 

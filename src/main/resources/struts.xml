@@ -20,6 +20,8 @@
 			</interceptor-ref>
 		</interceptor-stack>
 	</interceptors>
+	
+	<!-- User Action -->
      <action name="Login" class="bsh.uit.Action.UserAction" method="Login">
          <result name="success" type="json">
          	<param name="excludeProperties">password</param>
@@ -27,19 +29,15 @@
          <!-- <result name="success">/WEB-INF/jsp/uploadSuccess.jsp</result>
          <result name="input">/WEB-INF/jsp/index.jsp</result> -->
      </action>
+     <action name="user" class="bsh.uit.Action.UserAction" method="viewUserInfo">
+     	<result name="success">/WEB-INF/jsp/user/user_config.jsp</result>
+     </action>
+     
+     
+     <!-- Project Action -->
      <action name="pjnewsfeed" class="bsh.uit.Action.ProjectAction" method="getNewsFeed">
      	<result name="success" type="json">
          	<!-- <param name="excludeProperties">password</param> -->
-         </result>
-     </action>
-     <action name="getProjectVideo" class="bsh.uit.Action.VideoAction" method="getProjectVideo">
-     	<result name="success" type="json">
-         	<!-- <param name="includeProperties">lstDetail</param>  -->
-         </result>
-     </action>
-     <action name="getProjectDetail" class="bsh.uit.Action.DetailAction" method="getProjectDetail">
-     	<result name="success" type="json">
-         	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
      <action name="doCombile" class="bsh.uit.Action.ProjectAction" method="doCombile">
@@ -52,6 +50,31 @@
          	<!-- <param name="includeProperties">lstDetail</param>  -->
         </result>
      </action>
+     <action name="createStudio" class="bsh.uit.Action.ProjectAction" method="createProject">
+     	<result name="new">/WEB-INF/jsp/project/project_create.jsp</result>
+     	<result name="success" type="json">
+         	<!-- <param name="actionName">getProjectStudio</param> -->
+        </result>
+     </action>
+     
+     
+     <!-- Video Action -->
+     <action name="getProjectVideo" class="bsh.uit.Action.VideoAction" method="getProjectVideo">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
+     
+     
+     <!-- Detail Action -->
+     <action name="getProjectDetail" class="bsh.uit.Action.DetailAction" method="getProjectDetail">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
+     
+     
+     <!-- File Upload Action -->
 	<action name="fileUpload" class="bsh.uit.Action.FileUploadAction" >
         <interceptor-ref name="fileUploadStack">
             <param name="maximumSize">104857600</param>
