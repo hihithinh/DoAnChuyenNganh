@@ -57,12 +57,6 @@ public class ProjectAction  extends ActionSupport {
 	}
 	
 	public String loadProjectStudio() throws Exception {
-		if(pid==null) {
-			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
-	                .get(ServletActionContext.HTTP_REQUEST);;
-		    pid = request.getParameter("pid");
-		}
-	    
 		lstProject = new ArrayList<Project>();
 		Project project = new Project();
 		project = projectMgr.getProjectbyId(pid);

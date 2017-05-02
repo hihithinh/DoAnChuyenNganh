@@ -8,12 +8,11 @@
 		<title>Kết nối người chơi nhạc</title>
 		<!-- Style -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-		<link rel="stylesheet" href="resources/styles/main.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/MuzConnect/resources/styles/main.css">
 		<!-- Script -->
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
 	</head>
 	<body>
 		<script>
@@ -78,6 +77,6 @@
 		<button id="btnUpload">Tham gia</button>
 		
 		<script>var loguser = JSON.parse('<%= session.getAttribute("username") %>');</script>
-		<script type="text/javascript" src="resources/scripts/main.js"></script>
+		<script type="text/javascript" src="/MuzConnect/resources/scripts/main.js"></script>
 </body>
 </html>

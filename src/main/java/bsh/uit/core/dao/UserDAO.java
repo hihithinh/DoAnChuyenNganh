@@ -123,7 +123,7 @@ public class UserDAO {
 		}
     }
     
-    public User getUserbyName(String name) throws Exception {
+    public User getUserbyAccount(String account) throws Exception {
     	Connection connect = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -135,8 +135,8 @@ public class UserDAO {
 			
     		StringBuilder sql = new StringBuilder();
 	    	List<Object> params = new ArrayList<Object>();
-	        sql.append("select * from user where user_name=?");
-	        params.add(name);
+	        sql.append("select * from user where user_account=?");
+	        params.add(account);
 	        
 	      //execute querry with sql and params
 	        preparedStatement = connect.prepareStatement(sql.toString());

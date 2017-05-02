@@ -4,10 +4,14 @@
 <html>
 	<head>
 		<title>Ứng dụng kết nối người chơi nhạc</title>
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<%-- <sj:head jqueryui="true" jquerytheme="cupertino"/> --%>
-		<script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
-		<link rel="stylesheet" href="resources/styles/main.css">
+		<!-- css -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="resources/styles/main.css">	
+		
+		<!-- javascript -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>	
 	</head>
  
 	<body>

@@ -155,7 +155,7 @@ var home = {
 								+"<div class=\"pjtime\">Cập nhật "+ pjtime +"</div>"
 								+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
 								+"<br><div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
-								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"getProjectStudio?pid=" + res.lstProject[i].id
+								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"studio/" + res.lstProject[i].id
 								+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
 							+"</div>"
 						+"</div>";
@@ -190,7 +190,7 @@ var studio = {
 	geturl: function () {
 		document.getElementById('pid').value = document.getElementById('pjId').innerHTML;
 		$.ajax({
-			url: "getProjectDetail",
+			url: "/MuzConnect/getProjectDetail",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",

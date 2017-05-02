@@ -11,6 +11,9 @@
  <constant name="struts.custom.i18n.resources"
      value="ApplicationResources" />
  <constant name="struts.multipart.maxSize" value="104857600" />
+ <constant name="struts.enable.SlashesInActionNames" value="true"/>
+ <constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
+ <!-- <constant name="struts.mapper.action.prefix.enabled" value="true"/> -->
  
  <package name="default" namespace="/" extends="json-default, struts-default">
  	<interceptors>
@@ -18,18 +21,50 @@
 			<interceptor-ref name="json">
 				<param name="enableSMD">true</param>
 			</interceptor-ref>
+			<interceptor-ref name="exception"/>
+		    <interceptor-ref name="alias"/>
+		    <interceptor-ref name="servletConfig"/>
+		    <interceptor-ref name="i18n"/>
+		 	<!-- THE TRICK: NOW PREPARE() WILL FIND EVERYTHING SET -->     
+		    <interceptor-ref name="staticParams"/>
+		    <interceptor-ref name="actionMappingParams"/>
+		    <interceptor-ref name="params">
+		    	<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+		    </interceptor-ref>
+		 	<!-- END OF THE TRICK -->
+		    <interceptor-ref name="prepare"/>
+		    <interceptor-ref name="chain"/>
+		    <interceptor-ref name="scopedModelDriven"/>
+		    <interceptor-ref name="modelDriven"/>
+		    <interceptor-ref name="fileUpload"/>
+		    <interceptor-ref name="checkbox"/>
+		    <interceptor-ref name="multiselect"/>
+		    <interceptor-ref name="staticParams"/>
+		    <interceptor-ref name="actionMappingParams"/>
+		    <interceptor-ref name="params">
+		    	<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="conversionError"/>
+		    <interceptor-ref name="validation">
+		    	<param name="excludeMethods">input,back,cancel,browse</param>
+		    </interceptor-ref>
+		    <interceptor-ref name="workflow">
+		    	<param name="excludeMethods">input,back,cancel,browse</param>
+		    </interceptor-ref>
+    		<interceptor-ref name="debugging"/>
 		</interceptor-stack>
 	</interceptors>
 	
 	<!-- User Action -->
-     <action name="Login" class="bsh.uit.Action.UserAction" method="Login">
+     <action name="Login" class="bsh.uit.Action.UserAction" method="Login" >
          <result name="success" type="json">
          	<param name="excludeProperties">password</param>
          </result>
          <!-- <result name="success">/WEB-INF/jsp/uploadSuccess.jsp</result>
          <result name="input">/WEB-INF/jsp/index.jsp</result> -->
      </action>
-     <action name="user" class="bsh.uit.Action.UserAction" method="viewUserInfo">
+     <action name="user/*" class="bsh.uit.Action.UserAction" method="viewUserInfo">
+     	<param name="account">{1}</param>
      	<result name="success">/WEB-INF/jsp/user/user_config.jsp</result>
      </action>
      
@@ -37,7 +72,6 @@
      <!-- Project Action -->
      <action name="pjnewsfeed" class="bsh.uit.Action.ProjectAction" method="getNewsFeed">
      	<result name="success" type="json">
-         	<!-- <param name="excludeProperties">password</param> -->
          </result>
      </action>
      <action name="doCombile" class="bsh.uit.Action.ProjectAction" method="doCombile">
@@ -45,9 +79,9 @@
          	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
-     <action name="getProjectStudio" class="bsh.uit.Action.ProjectAction" method="loadProjectStudio">
+     <action name="studio/*" class="bsh.uit.Action.ProjectAction" method="loadProjectStudio">
+     	<param name="pid">{1}</param>
      	<result name="success">/WEB-INF/jsp/project/project_studio.jsp
-         	<!-- <param name="includeProperties">lstDetail</param>  -->
         </result>
      </action>
      <action name="createStudio" class="bsh.uit.Action.ProjectAction" method="createProject">

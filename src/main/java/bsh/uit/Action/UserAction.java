@@ -61,12 +61,7 @@ public class UserAction extends ActionSupport implements SessionAware{
    }
    
    public String viewUserInfo() throws Exception {
-	   if(account==null) {
-			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext()
-	                .get(ServletActionContext.HTTP_REQUEST);
-	                account = request.getParameter("account");
-		}
-	   user = userMgr.getUserbyName(account);
+	   user = userMgr.getUserbyAccount(account);
 	   return SUCCESS;
    }
    

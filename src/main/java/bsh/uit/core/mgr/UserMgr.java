@@ -20,8 +20,8 @@ public class UserMgr {
 		return userDao.getUserbyId(id);
 	}
 	
-	public User getUserbyName(String id) throws Exception {
-		return userDao.getUserbyName(id);
+	public User getUserbyAccount(String account) throws Exception {
+		return userDao.getUserbyAccount(account);
 	}
 	
 	public User addUser(User user) throws Exception {
