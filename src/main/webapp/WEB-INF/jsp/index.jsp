@@ -39,14 +39,34 @@
 			<div id="btnConfig" class="btnConfig"></div>
 			<div id="user" class="user">
 				<div id="login" class="rfloat">
-					Tài khoản:
-					<input type="text" id="account" name="account" size="20" />
-					Mật khẩu:
-					<input type="password" id="password" name="password"  size="20" />
-					<input type="button" id="btnLogin" value="Đăng nhập" onclick="home.Login()"/>
+					<a href="#" class="btn btn-default" id="btnModalLogin">Đăng Nhập</a>
 				</div>
 				<div id="hello"></div>
 				</div>
+		</div>
+		<div id="modalLogin" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" style="width:300px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">×</button>
+						<h3>Đăng nhập</h3>
+					</div>
+					<div class="modal-body">
+						<div id="logStatus" class="login_input"></div>
+						<div class="login_input">
+							<span>Account: </span>
+							<input type="text" id="account" name="account" class="form-control">
+						</div>
+						<div class="login_input">
+							<span>Password: </span>
+							<input type="password" id="password" name="password" class="form-control">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn" onclick="home.Login()">Đăng nhập</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div id="content" class="content">
 		</div>

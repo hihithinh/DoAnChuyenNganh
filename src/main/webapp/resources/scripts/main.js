@@ -33,6 +33,17 @@ function titlebar(val) {
 }
 titlebar(0);
 
+
+$('#btnModalLogin').click(function(){
+	$('#modalLogin').modal({show:true})
+});
+$('#profileTab a').click(function (e) {
+	 e.preventDefault();
+	 $(this).tab('show');
+});
+
+
+
 $( document ).ready( function(){
 	if(loguser != null) {
 		$('#login').hide();
@@ -51,6 +62,9 @@ $( document ).ready( function(){
 		studio.geturl();
 	} else if(document.getElementById('page').innerHTML == "create_studio") {
 		studio.handleAPILoaded();
+	} else if(document.getElementById('page').innerHTML == "profile") {
+		user.loadProjectbyOwnerId((loguser == null || loguser == undefined) ? null : loguser.id);
+		user.loadProjectbyJoinedUserId((loguser == null || loguser == undefined) ? null : loguser.id);
 	}
 	$(window).resize(function() {
 		console.log($(window).width());
@@ -67,7 +81,124 @@ $( document ).ready( function(){
 		}
 	});
 });
+var user = {
+	loadProjectbyOwnerId: function (currUser) {
+		var str = "";
+		var user = window.location.href.split("/")[window.location.href.split("/").length - 1];
+		$.ajax({
+			url: "pjProfileOwner",
+			type : "post",
+			dateType:"json",
+			contentType:"application/json",
+			data: JSON.stringify({"currUser":currUser, "user":user}),
+			success : function (res) {
+				for(var i=0; i<res.lstProject.length; i++) {
 
+					str = str
+						+"<div class=\"project\">"
+							+"<div class=\"present\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+					
+					for(var j=0; j<res.lstDetail.length; j++) {
+						if(res.lstDetail[j].project.id==res.lstProject[i].id){
+							if(res.lstProject[i].status == 1 && res.lstDetail[j].video_type == 2) {
+								str = str + res.lstDetail[j].video.link;
+							} else if(res.lstDetail[j].video_type == 0) {
+								str = str + res.lstDetail[j].video.link;
+							}
+						}
+					}
+					
+					var now = (new Date()).getTime();
+					var update_day = new Date(res.lstProject[i].update_day.replace("T", " "));
+					if(update_day.getTime() <= 60000) {
+						var pjtime = "mới đây";
+					} else if(update_day.getTime() < 3600000) {
+						var pjtime = (Math.floor((now - update_day) / 3600000)) + "phút trước";
+					} else if(update_day.getTime() < 86400000) {
+						var pjtime = (Math.floor((now - update_day) / 86400000)) + "tiếng trước";
+					} else {
+						var pjtime = update_day.getDate() + " tháng " + update_day.getMonth() + " " + update_day.getYear()
+										+ " lúc " + update_day.getHours() + ":" + update_day.getMinutes();
+					}
+					
+					str = str	+"\" frameborder=\"0\" allowfullscreen></iframe></div>"
+							+"<div class=\"pjinfo\">"
+								+"<div class=\"pjname\">"+res.lstProject[i].name+"</div>"
+								+"<div class=\"pjtime\">Cập nhật "+ pjtime +"</div>"
+								+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
+								+"<br><div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
+								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"studio/" + res.lstProject[i].id
+								+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
+							+"</div>"
+						+"</div>";
+					
+				}
+				$(".content").append(str);
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi tải dữ liệu dự án");	
+			}
+		});
+	},
+	loadProjectbyJoinedUserId: function (currUser) {
+		var str = "";
+		var user = window.location.href.split("/")[window.location.href.split("/").length - 1];
+		$.ajax({
+			url: "pjProfileJoinUser",
+			type : "post",
+			dateType:"json",
+			contentType:"application/json",
+			data: JSON.stringify({"currUser":currUser, "user":user}),
+			success : function (res) {
+				for(var i=0; i<res.lstProject.length; i++) {
+
+					str = str
+						+"<div class=\"project\">"
+							+"<div class=\"present\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+					
+					for(var j=0; j<res.lstDetail.length; j++) {
+						if(res.lstDetail[j].project.id==res.lstProject[i].id){
+							if(res.lstProject[i].status == 1 && res.lstDetail[j].video_type == 2) {
+								str = str + res.lstDetail[j].video.link;
+							} else if(res.lstDetail[j].video_type == 0) {
+								str = str + res.lstDetail[j].video.link;
+							}
+						}
+					}
+					
+					var now = (new Date()).getTime();
+					var update_day = new Date(res.lstProject[i].update_day.replace("T", " "));
+					if(update_day.getTime() <= 60000) {
+						var pjtime = "mới đây";
+					} else if(update_day.getTime() < 3600000) {
+						var pjtime = (Math.floor((now - update_day) / 3600000)) + "phút trước";
+					} else if(update_day.getTime() < 86400000) {
+						var pjtime = (Math.floor((now - update_day) / 86400000)) + "tiếng trước";
+					} else {
+						var pjtime = update_day.getDate() + " tháng " + update_day.getMonth() + " " + update_day.getYear()
+										+ " lúc " + update_day.getHours() + ":" + update_day.getMinutes();
+					}
+					
+					str = str	+"\" frameborder=\"0\" allowfullscreen></iframe></div>"
+							+"<div class=\"pjinfo\">"
+								+"<div class=\"pjname\">"+res.lstProject[i].name+"</div>"
+								+"<div class=\"pjtime\">Cập nhật "+ pjtime +"</div>"
+								+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
+								+"<br><div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
+								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"studio/" + res.lstProject[i].id
+								+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
+							+"</div>"
+						+"</div>";
+					
+				}
+				$(".content").append(str);
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi tải dữ liệu dự án");	
+			}
+		});
+	}
+}
 var home = {
 	Login: function () {
 		user = null;
@@ -82,14 +213,15 @@ var home = {
 					$('#login').hide();
 					document.getElementById('hello').style.color = "#000000";
 					$('#hello').text("Xin chào, " + home.titleCase(res.user.name));
+					$('#modalLogin').modal('hide');
 					if(document.getElementById('page').innerHTML == "studio") {
 						document.getElementById('uid').value = res.user.id;
 						document.getElementById("btnAlertLogin").style.display = "none";
 						document.getElementById("btnUploadSubmit").style.display = "block";
 					}
 				} else {
-					document.getElementById('hello').style.color = "#ff0000";
-					$('#hello').text("Tài khoản hoặc mật khẩu sai!");
+					document.getElementById('logStatus').style.color = "#ff0000";
+					$('#logStatus').text("Tài khoản hoặc mật khẩu sai!");
 					document.getElementById('account').value = "";
 					document.getElementById('password').value = "";
 				}

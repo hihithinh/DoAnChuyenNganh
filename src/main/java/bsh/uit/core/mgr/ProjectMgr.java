@@ -21,6 +21,14 @@ public class ProjectMgr {
 		return projectDao.getProjectbyId(id);
 	}
 	
+	public List<Project> getProjectbyOwnerId(String uid) throws Exception {
+		return projectDao.getProjectbyOwnerId(uid);
+	}
+	
+	public List<Project> getProjectbyJoinedUserId(String uid) throws Exception {
+		return projectDao.getProjectbyJoinedUserId(uid);
+	}
+	
 	public Project addProject(Project project) throws Exception {
 		return projectDao.addProject(project);
 	}

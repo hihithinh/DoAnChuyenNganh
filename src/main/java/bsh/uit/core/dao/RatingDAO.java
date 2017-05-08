@@ -57,6 +57,8 @@ public class RatingDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			
 			//Chi lay gia tri dau tien
@@ -94,6 +96,7 @@ public class RatingDAO {
 		  //execute querry with sql and params
 			preparedStatement = connect.prepareStatement(sql.toString());
 
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			
 			return SQLtoRating(resultSet).get(0);
@@ -146,6 +149,8 @@ public class RatingDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			
 			if(Success == 0)
@@ -192,6 +197,8 @@ public class RatingDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return "error";
@@ -227,6 +234,8 @@ public class RatingDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return "error";

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,10 +68,102 @@ public class ProjectDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			
 			//Chi lay gia tri dau tien trong List
 			return SQLtoProject(resultSet).get(0);
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(resultSet != null) {
+				resultSet.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public List<Project> getProjectbyOwnerId(String uid) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			List<Object> params = new ArrayList<Object>();
+	        StringBuilder sql = new StringBuilder();
+	        sql.append("select * from project where user_id=? and (status=? or status=?)");
+	        params.add(uid);
+	        params.add(0);
+	        params.add(1);
+	        sql.append(" order by update_day desc");
+	        
+
+	        //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			
+			System.out.println(preparedStatement.toString());
+			resultSet = preparedStatement.executeQuery();
+			
+			return SQLtoProject(resultSet);
+    	} catch (Exception e) {
+            throw e;
+	    } finally {
+			if(resultSet != null) {
+				resultSet.close();
+			}
+			if(preparedStatement != null) {
+				preparedStatement.close();
+			}
+			if(connect != null) {
+				connect.close();
+			}
+		}
+	}
+	
+	public List<Project> getProjectbyJoinedUserId(String uid) throws Exception {
+		Connection connect = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			// Setup the connection with the DB
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(mysql.getMysql());
+			
+			List<Object> params = new ArrayList<Object>();
+	        StringBuilder sql = new StringBuilder();
+	        sql.append("select distinct pj.* from project pj"
+	        		+ " inner join project_detail pd on pj.PROJECT_ID = pd.PROJECT_ID"
+	        		+ " inner join video vi on pd.VIDEO_ID = vi.VIDEO_ID"
+	        		+ " where vi.user_id=? and (pj.status=? or pj.status=?) and vi.status=?");
+	        params.add(uid);
+	        params.add(0);
+	        params.add(1);
+	        params.add(1);
+	        sql.append(" order by pj.update_day desc");
+	        
+
+	        //execute querry with sql and params
+	        preparedStatement = connect.prepareStatement(sql.toString());
+			for(int i = 0; i < params.size(); i++){
+				preparedStatement.setObject(i+1, params.get(i));
+			}
+			
+			System.out.println(preparedStatement.toString());
+			resultSet = preparedStatement.executeQuery();
+			
+			return SQLtoProject(resultSet);
     	} catch (Exception e) {
             throw e;
 	    } finally {
@@ -108,6 +201,8 @@ public class ProjectDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 
 			return SQLtoProject(resultSet);
@@ -143,7 +238,8 @@ public class ProjectDAO {
 			
 		  //execute querry with sql and params
 			preparedStatement = connect.prepareStatement(sql.toString());
-
+			
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			
 			return SQLtoProject(resultSet).get(0);
@@ -207,6 +303,8 @@ public class ProjectDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			
 			if(Success == 0)
@@ -264,6 +362,8 @@ public class ProjectDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return null;
@@ -299,6 +399,8 @@ public class ProjectDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return "error";

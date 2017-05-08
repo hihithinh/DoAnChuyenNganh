@@ -74,6 +74,14 @@
      	<result name="success" type="json">
          </result>
      </action>
+     <action name="pjProfileOwner" class="bsh.uit.Action.ProjectAction" method="loadProjectsbyOwnerIdforProfile">
+     	<result name="success" type="json">
+         </result>
+     </action>
+     <action name="pjProfileJoinUser" class="bsh.uit.Action.ProjectAction" method="loadProjectsbyJoinedUserIdforProfile">
+     	<result name="success" type="json">
+         </result>
+     </action>
      <action name="doCombile" class="bsh.uit.Action.ProjectAction" method="doCombile">
      	<result name="success" type="json">
          	<!-- <param name="includeProperties">lstDetail</param>  -->

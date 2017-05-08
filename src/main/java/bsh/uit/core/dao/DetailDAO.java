@@ -58,6 +58,7 @@ public class DetailDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			System.out.println(preparedStatement.toString());
 			resultSet = preparedStatement.executeQuery();
 			
 			return SQLtoDetail(resultSet);
@@ -103,6 +104,8 @@ public class DetailDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			
 			if(Success == 0)
@@ -147,6 +150,8 @@ public class DetailDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return null;
@@ -182,6 +187,8 @@ public class DetailDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return "error";
@@ -217,6 +224,8 @@ public class DetailDAO {
 			for(int i = 0; i < params.size(); i++){
 				preparedStatement.setObject(i+1, params.get(i));
 			}
+			
+			System.out.println(preparedStatement.toString());
 			Success = preparedStatement.executeUpdate();
 			if(Success == 0)
 				return "error";
