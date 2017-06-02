@@ -23,6 +23,7 @@ public class UserAction extends ActionSupport implements SessionAware{
    private String account;
    private String password;
    private User user;
+   private int profile_mode;
    private UserMgr userMgr;
    private boolean loginState;
    private Map<String, Object> sessionMap;
@@ -36,6 +37,7 @@ public class UserAction extends ActionSupport implements SessionAware{
 	   user = new User();
 	   userMgr = new UserMgr();
 	   sessionMap = ActionContext.getContext().getSession();
+	   sessionMap.put("username", null);
    }
  
    public String Login() throws Exception {
@@ -62,9 +64,17 @@ public class UserAction extends ActionSupport implements SessionAware{
    
    public String viewUserInfo() throws Exception {
 	   user = userMgr.getUserbyAccount(account);
-	   return SUCCESS;
+	   if(profile_mode == 1)
+		   return "full";
+	   return "simple";
    }
    
+   public String getHeader() throws Exception {
+	   if(sessionMap.get("username") != null) {
+		   return "logged";
+	   }
+	   return "unlog";
+   }
    public String createNewUser() throws Exception {
 	   user = userMgr.addUser(user);
 	   return SUCCESS;
@@ -112,6 +122,10 @@ public class UserAction extends ActionSupport implements SessionAware{
 		return loginState;
 	}
 	
+	public void setProfile_mode(int profile_mode) {
+		this.profile_mode = profile_mode;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> sessionMap) {
 		this.sessionMap = sessionMap;	

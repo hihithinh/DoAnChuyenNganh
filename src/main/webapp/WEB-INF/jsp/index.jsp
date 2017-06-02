@@ -15,60 +15,43 @@
 	</head>
  
 	<body>
-		<script>
-	  		window.fbAsyncInit = function() {
-	    		FB.init({
-	      			appId      : '1253610298021820',
-	      			xfbml      : true,
-	      			version    : 'v2.8'
-	    		});
-	    		FB.AppEvents.logPageView();
-	  		};
-	
-	  		(function(d, s, id){
-	     		var js, fjs = d.getElementsByTagName(s)[0];
-	     		if (d.getElementById(id)) {return;}
-	     			js = d.createElement(s); js.id = id;
-	     			js.src = "//connect.facebook.net/en_US/sdk.js";
-	     			fjs.parentNode.insertBefore(js, fjs);
-	   			}(document, 'script', 'facebook-jssdk'));
-		</script>
-		<div style="display:none" id="page">home</div>
-		<div id="header" class="container-fluid header">
-			<div id="btnHome" class="btnHome"></div>
-			<div id="btnConfig" class="btnConfig"></div>
-			<div id="user" class="user">
-				<div id="login" class="rfloat">
-					<a href="#" class="btn btn-default" id="btnModalLogin">Đăng Nhập</a>
-				</div>
-				<div id="hello"></div>
-				</div>
-		</div>
-		<div id="modalLogin" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog" style="width:300px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-						<h3>Đăng nhập</h3>
-					</div>
-					<div class="modal-body">
-						<div id="logStatus" class="login_input"></div>
-						<div class="login_input">
-							<span>Account: </span>
-							<input type="text" id="account" name="account" class="form-control">
+		<div style="display:none" id="page-name">home</div>
+		<div id="page">
+			<div id="header">
+			</div>
+			<div id="modalLogin" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" style="width:350px">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h3>Đăng nhập</h3>
 						</div>
-						<div class="login_input">
-							<span>Password: </span>
-							<input type="password" id="password" name="password" class="form-control">
+						<div class="modal-body">
+							<div id="logStatus" class="login_input"></div>
+							<div class="login_input">
+								<span>Account: </span>
+								<input type="text" id="account" name="account" class="form-control">
+							</div>
+							<div class="login_input">
+								<span>Password: </span>
+								<input type="password" id="password" name="password" class="form-control">
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" onclick="home.Login()">Đăng nhập</button>
+						<div class="modal-footer">
+							<button class="btn" onclick="home.Login()">Đăng nhập</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="content" class="content">
+			<div id="body">
+				<div class="home">
+					<div>
+						<ul id="content">
+						
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script type="text/javascript" src="resources/scripts/main.js"></script>
 		<script type="text/javascript">

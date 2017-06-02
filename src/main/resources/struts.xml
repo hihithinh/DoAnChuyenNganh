@@ -65,9 +65,13 @@
      </action>
      <action name="user/*" class="bsh.uit.Action.UserAction" method="viewUserInfo">
      	<param name="account">{1}</param>
-     	<result name="success">/WEB-INF/jsp/user/user_config.jsp</result>
+     	<result name="simple">/WEB-INF/jsp/user/user_profile_simple.jsp</result>
+     	<result name="full">/WEB-INF/jsp/user/user_profile.jsp</result>
      </action>
-     
+     <action name="get-header" class="bsh.uit.Action.UserAction" method="getHeader">
+     	<result name="unlog">/WEB-INF/jsp/page-resources/header-unlog.jsp</result>
+     	<result name="logged">/WEB-INF/jsp/page-resources/header-logged.jsp</result>
+     </action>
      
      <!-- Project Action -->
      <action name="pjnewsfeed" class="bsh.uit.Action.ProjectAction" method="getNewsFeed">
@@ -106,7 +110,10 @@
          	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
-     
+     <action name="getVideobyOwner" class="bsh.uit.Action.VideoAction" method="getProjectbyUserId">
+     	<result name="success" type="json">
+         </result>
+     </action>
      
      <!-- Detail Action -->
      <action name="getProjectDetail" class="bsh.uit.Action.DetailAction" method="getProjectDetail">

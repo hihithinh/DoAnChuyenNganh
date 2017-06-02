@@ -34,10 +34,11 @@ function titlebar(val) {
 titlebar(0);
 
 
-$('#btnModalLogin').click(function(){
+$('#btnModalLogin').on('click', function() {
+	alert ("inside onclick");
 	$('#modalLogin').modal({show:true})
 });
-$('#profileTab a').click(function (e) {
+$('#profileTab').click(function (e) {
 	 e.preventDefault();
 	 $(this).tab('show');
 });
@@ -45,24 +46,28 @@ $('#profileTab a').click(function (e) {
 
 
 $( document ).ready( function(){
+	$.ajax({
+		url: "/MuzConnect/get-header",
+		type : "post",
+		success : function (res) {
+			document.getElementById('header').innerHTML = res;
+		}
+	});
 	if(loguser != null) {
-		$('#login').hide();
-		document.getElementById('hello').style.color = "#000000";
-		$('#hello').text("Xin chào, " + home.titleCase(loguser.name));
-		if(document.getElementById('page').innerHTML == "studio") {
+		if(document.getElementById('page-name').innerHTML == "studio") {
 			document.getElementById("btnAlertLogin").style.display = "none";
 			document.getElementById('uid').value = loguser.id;
 		}
-	} else if(document.getElementById('page').innerHTML == "studio") {
+	} else if(document.getElementById('page-name').innerHTML == "studio") {
 		document.getElementById("btnUploadSubmit").style.display = "none";
 	}
-	if(document.getElementById('page').innerHTML == "home") {
+	if(document.getElementById('page-name').innerHTML == "home") {
 		home.loadNewsFeed(loguser == null ? "U2" : loguser.id);
-	} else if(document.getElementById('page').innerHTML == "studio") {
+	} else if(document.getElementById('page-name').innerHTML == "studio") {
 		studio.geturl();
-	} else if(document.getElementById('page').innerHTML == "create_studio") {
+	} else if(document.getElementById('page-name').innerHTML == "create_studio") {
 		studio.handleAPILoaded();
-	} else if(document.getElementById('page').innerHTML == "profile") {
+	} else if(document.getElementById('page-name').innerHTML == "profile") {
 		user.loadProjectbyOwnerId((loguser == null || loguser == undefined) ? null : loguser.id);
 		user.loadProjectbyJoinedUserId((loguser == null || loguser == undefined) ? null : loguser.id);
 	}
@@ -86,11 +91,11 @@ var user = {
 		var str = "";
 		var user = window.location.href.split("/")[window.location.href.split("/").length - 1];
 		$.ajax({
-			url: "pjProfileOwner",
+			url: "/MuzConnect/pjProfileOwner",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",
-			data: JSON.stringify({"currUser":currUser, "user":user}),
+			data: JSON.stringify({"currUser":currUser, "gettingUser":user}),
 			success : function (res) {
 				for(var i=0; i<res.lstProject.length; i++) {
 
@@ -127,13 +132,13 @@ var user = {
 								+"<div class=\"pjtime\">Cập nhật "+ pjtime +"</div>"
 								+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
 								+"<br><div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
-								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"studio/" + res.lstProject[i].id
+								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"/MuzConnect/studio/" + res.lstProject[i].id
 								+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
 							+"</div>"
 						+"</div>";
 					
 				}
-				$(".content").append(str);
+				document.getElementById('createdPJcontent').innerHTML = str;
 			},
 			error:function(){
 				alert("Xảy ra lỗi khi tải dữ liệu dự án");	
@@ -144,11 +149,11 @@ var user = {
 		var str = "";
 		var user = window.location.href.split("/")[window.location.href.split("/").length - 1];
 		$.ajax({
-			url: "pjProfileJoinUser",
+			url: "/MuzConnect/pjProfileJoinUser",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",
-			data: JSON.stringify({"currUser":currUser, "user":user}),
+			data: JSON.stringify({"currUser":currUser, "gettingUser":user}),
 			success : function (res) {
 				for(var i=0; i<res.lstProject.length; i++) {
 
@@ -191,7 +196,7 @@ var user = {
 						+"</div>";
 					
 				}
-				$(".content").append(str);
+				document.getElementById('joinedPJcontent').innerHTML = str;
 			},
 			error:function(){
 				alert("Xảy ra lỗi khi tải dữ liệu dự án");	
@@ -203,7 +208,7 @@ var home = {
 	Login: function () {
 		user = null;
 		$.ajax({
-			url: "Login",
+			url: "/MuzConnect/Login",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",
@@ -255,8 +260,9 @@ var home = {
 				for(var i=0; i<res.lstProject.length; i++) {
 
 					str = str
-						+"<div class=\"project\">"
-							+"<div class=\"present\"><iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/";
+						+'<li>'
+							+'<div class="abc">'
+								+'<iframe width="560" height="315" src="https://www.youtube.com/embed/';
 					
 					for(var j=0; j<res.lstDetail.length; j++) {
 						if(res.lstDetail[j].project.id==res.lstProject[i].id){
@@ -281,19 +287,18 @@ var home = {
 										+ " lúc " + update_day.getHours() + ":" + update_day.getMinutes();
 					}
 					
-					str = str	+"\" frameborder=\"0\" allowfullscreen></iframe></div>"
-							+"<div class=\"pjinfo\">"
-								+"<div class=\"pjname\">"+res.lstProject[i].name+"</div>"
-								+"<div class=\"pjtime\">Cập nhật "+ pjtime +"</div>"
-								+"<div class=\"pjuser\">"+res.lstProject[i].user.name+"</div>"
-								+"<br><div class=\"pjdescription\">"+res.lstProject[i].description+"</div>"
-								+"<button class=\"btnStudio\"><a target=\"_blank\" href=\"studio/" + res.lstProject[i].id
-								+"\" style=\"text-decoration: none\">Mở trong Studio</a></button>"
-							+"</div>"
-						+"</div>";
-					
+					str = str	+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>'
+							+'</div>'
+							+'<div>'
+								+'<h1>'+res.lstProject[i].name+'</h1>'
+								+'<p style="float:left;color:#cccccc">'+pjtime+'</p>'
+								+'<p style="float:right;color:#cccccc;"><b>'+res.lstProject[i].user.name+'</b></p><br/>'
+								+'<p>'+res.lstProject[i].description+'</p>'
+								+'<a href="studio/'+res.lstProject[i].id+'" class="more btn">Mở Studio</a>'
+							+'</div>'
+						+'</li>';
 				}
-				$(".content").append(str);
+				document.getElementById('content').innerHTML += str;
 			},
 			error:function(){
 				alert("Xảy ra lỗi khi đăng nhập");	

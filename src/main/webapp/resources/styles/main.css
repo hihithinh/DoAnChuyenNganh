@@ -1,113 +1,200 @@
 body {
-	background-color: #555;
-	font-size: 18;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: auto;
+}
+body #page {
+	background: url("images/bg-home.jpg") no-repeat scroll center top #000000;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	width: auto;
+	z-index: 3;
+}
+a {
+	text-decoration: none;
+	outline: none;
+}
+a:active {
+	background: none;
+}
+img {
+	border: none;
 }
 
-.header {
-    height: 60px;
-    background-image: url("https://i.ytimg.com/vi/EcnbpGBKklQ/maxresdefault.jpg");
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    color: #53a9ff;	
+/*----------------------------------------header-styles---------------------------------------*/
+#header {
+	margin: 0;
+	height: 60px;
+	padding: 0;
+	width: auto;
 }
-.userInfo, .userName {
+#header div {
+	margin: 0 auto;
+	height: 60px;
+	max-width: 1020px;/* Chieu ngang header*/
+}
+#header div div a.logo {
+	display: block;
+	float: left;
+	margin: 0 44px 0 0;
+	padding: 0;
+	width: 30px;
+}
+
+#header div div a img {
+	display: center;
+	margin: 0;
+	padding: 0;
+	width: auto;
+}
+
+#header div div div, #header div div a{
 	color: #ffffff;
-	background-color: #c0c0c0;
-	width: 300px;
-	height: 100%;
-}
-.hello {
-	color: #ffffff
-}
-.rfloat {
-	float: right;
+	display: block;
+	font-family: Arial;
+	font-size: 18px;
+	font-weight: normal;
+	min-height: 60px;
+	padding: 15 10 0 10px;
+	*padding: 0 23px; /* Needed for IE8 and old versions */
+	text-align: right;
+	text-transform: uppercase;
+	width: auto;
 }
 
-.lfloat {
+#leftheader, #leftheader div {
 	float: left;
 }
 
-.user {
+#rightheader, #rightheader a {
 	float: right;
-	padding-top: 15;
-	padding-right:5;
 }
 
-.content {
-	min-width: 500;
-    margin-left: 150;
-    margin-right: 150;
-    overflow:hidden;
+#nof-num {
+	margin-left: -8px;
+	z-index: 10;
+	font-size: 14px;
+	margin-top: 7px;
 }
-
-
-.project {
-	margin-top:10;
-	margin-left:10;
-	margin-bottom:10;
-	min-height: 315px;
-	background-color: #FFF9C4;
-    box-shadow: 0px 0px 15px 3px #888888 !important;
+	
+/*----------------------------------------body-home-styles---------------------------------------*/
+#body {
+	background-color: #000000;
+	margin: 0;
+	min-height: 808px;
+	overflow: hidden;
+	padding: 0;
+	width: 100%;
 }
+/*----------------------------------------body-home-page-styles---------------------------------------*/
 
-.present {
-	height: 20;
-	padding-top:10px;
+#body .home {
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
 }
-
-.pjinfo {
-	min-height: 315px;
-	min-width: 400px;
-	margin-left: 570px;
-	position:relative;
+#body .home div {
+	margin: 0 auto;
+	max-width: 1020px;
+	overflow: hidden;
+	padding: 65px 0 40px;
 }
-
-.pjname {
-	margin-top: -15px;
-	font: 30px bold;
-	border-bottom: 2px solid black;
+#body .home div h1 {
+	color: #FFFFFF;
+	display: block;
+	font-family: arial;
+	font-size: 50px;
+	font-weight: bold;
+	line-height: 36px;
+	margin: 0 auto 87px;
+	padding: 0;
 	text-align: center;
+	text-transform: uppercase;
+	width: 1020px;
 }
-
-.pjtime {
+#body .home div ul {
+	display: inline-block;
+	max-width: 1020px;
+	list-style: none outside none;
+	margin: 0;
+	padding: 3px 0px 0;
+}
+#body .home div ul li:first-child {
+	border: none;
+	padding: 0 0 38px;
+}
+#body .home div ul li {
+	border-top: 1px solid #A3A3A3;
+	margin: 0;
+	overflow: hidden;
+	padding: 38px 0;
+	width: auto;
+}
+#body .home div ul li div:first-child {
+	display: block; 
+	float: left; 
+	margin: 0 20px 0 0; 
+	padding: 0;
+	width: 560px
+}
+#body .home div ul li div {
 	float: left;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	width: 420px;
+	position: relative;
+	height: 315px;
 }
-.pjuser {
-	float:right;
+#body .home div ul li div h1 {
+	color: #A3A3A3;
+	font-family: Arial;
+	font-size: 23px;
+	font-weight: bold;
+	line-height: 23px;
+	margin: 0 0 10px;
+	padding: 0;
+	text-align: left;
+	text-transform: uppercase;
 }
-
-.pjdescription {
+#body .home div ul li div p {
+	color: #FFFFFF;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 24px;
+	margin: 0;
+	padding: 0;
 	text-align: left;
 }
-
-#ytplayer {
-	float:left;
+#body .home div ul li div br {
+	line-height: 24px;
 }
 
-.studio {
-	width: 100%;
-	height: 850px;
-	background-image: url(images/blank-view-sync.jpg);
-    background-size: cover;	
-}
-.btnStudio {
-	right: 10;
-	bottom: 10;
+#body .home div ul li a.more {
+	background-color: #3c0f38;
+	color: #ffffff;
+	display: block;
+	float: right;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: normal;
+	height: 31px;
+	line-height: 31px;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	text-transform: uppercase;
+	width: 120px;
 	position: absolute;
+	bottom: 0;
+	right: 0;
 }
-
-.btnConfig {
-	background-image: url(images/icon-config.png);
-	background-size: 20px 20px;
-    background-repeat: no-repeat;
-    background-position: center left;
-    width:50;
-    height:50;
-    float:right;
-    padding-right: 50;
+#body .home div ul li a.more:hover {
+	background-color: #620031;
 }
-
 .btnHome {
 	background-image: url(images/icon-home.png);
 	background-size: 50px 50px;
