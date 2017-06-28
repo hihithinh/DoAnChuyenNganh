@@ -51,6 +51,19 @@ $( document ).ready( function(){
 	});
 });
 var user = {
+	getUserSimpleInfo: function (userId) {
+		$.ajax({
+			url: "/MuzConnect/user/" + userId,
+			type : "get",
+			success : function (res) {
+				$("#userSimpleInfo").find("div.modal-body").html(res);
+				$('#userSimpleInfo').modal({show:true})
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi tải dữ liệu dự án");	
+			}
+		});
+	},
 	loadProjectbyOwnerId: function (currUser) {
 		var str = "";
 		var user = window.location.href.split("/")[window.location.href.split("/").length - 1];
@@ -225,6 +238,7 @@ var home = {
 				user_type: {
 					id: "T102"
 				},
+				email: $("#usrEmail").val(),
 				status: 1,
 				gender: $("#usrGender").val(),	
 				ability: abilityString,
@@ -307,12 +321,20 @@ var home = {
 							+'<div>'
 								+'<h1>'+res.lstProject[i].name+'</h1>'
 								+'<p style="float:left;color:#cccccc">'+pjtime+'</p>'
-								+'<p style="float:right;color:#cccccc;"><b>'+res.lstProject[i].user.name+'</b></p><br/>'
+								+'<a href="#" style="float:right;color:#cccccc;" onclick="user.getUserSimpleInfo(\''+res.lstProject[i].user.account+'\' )"><b>'+res.lstProject[i].user.name+'</b></a><br/>'
 								+'<p>'+res.lstProject[i].description+'</p>'
 								+'<a href="studio/'+res.lstProject[i].id+'" class="more btn">Mở Studio</a>'
 							+'</div>'
 						+'</li>';
 				}
+				str = str + '<div id="userSimpleInfo" style="padding: 0" class="modal fade" tabindex="-1" role="dialog">\
+								<div style="padding: 0" class="modal-dialog">\
+									<div style="padding: 0" class="modal-content">\
+										<div style="padding: 0" class="modal-body">\
+										</div>\
+									</div>\
+								</div>\
+							</div>'
 				document.getElementById('content').innerHTML += str;
 			},
 			error:function(){

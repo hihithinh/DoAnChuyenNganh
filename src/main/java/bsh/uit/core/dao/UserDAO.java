@@ -32,6 +32,7 @@ public class UserDAO {
 	    	user.setBirthday(resultSet.getDate("birthday"));
 	    	user.setCreated_day(resultSet.getDate("created_day"));
 	    	user.setDescription(resultSet.getString("description"));
+	    	user.setEmail(resultSet.getString("email"));
 	    	user.setFbtoken(resultSet.getString("fb_token"));
 	    	user.setGender(resultSet.getString("gender"));
 	    	user.setGgtoken(resultSet.getString("gg_token"));
@@ -216,8 +217,8 @@ public class UserDAO {
 	    	StringBuilder sql = new StringBuilder();
 	    	List<Object> params = new ArrayList<Object>();
 	        sql.append("insert into user"
-	        		+ " (`USER_ID`, `USER_ACCOUNT`, `PASSWORD`, `FB_TOKEN`, `GG_TOKEN`, `USER_NAME`, `ADDRESS`, `AVATAR`, `USER_TYPE`, `CREATED_DAY`, `STATUS`, `ABILITY`, `GENDER`, `BIRTHDAY`, `DESCRIPTION`)"
-	        		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	        		+ " (`USER_ID`, `USER_ACCOUNT`, `PASSWORD`, `FB_TOKEN`, `GG_TOKEN`, `USER_NAME`, `ADDRESS`, `AVATAR`, `USER_TYPE`, `CREATED_DAY`, `STATUS`, `ABILITY`, `GENDER`, `BIRTHDAY`, `DESCRIPTION`, `EMAIL`)"
+	        		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	        
 	        //Get last ID then +1
 	        User usr = new User();
@@ -239,6 +240,7 @@ public class UserDAO {
 	        params.add(user.getGender());
 	        params.add(user.getBirthday());
 	        params.add(user.getDescription());
+	        params.add(user.getEmail());
 	        
 	        //execute querry with sql and params
 	        preparedStatement = connect.prepareStatement(sql.toString());
@@ -277,7 +279,7 @@ public class UserDAO {
 	    	List<Object> params = new ArrayList<Object>();
 	        sql.append("update user set `USER_ACCOUNT`=?, PASSWORD=?, `FB_TOKEN`=?, `GG_TOKEN`=?, "
 	        		+ "`USER_NAME`=?, `ADDRESS`=?, `AVATAR`=?, `USER_TYPE`=?, `CREATED_DAY`=?, `STATUS`=? "
-	        		+ "`ABILITY`=?, `GENDER`=?, `BIRTHDAY`=?, `DESCRIPTION`=?"
+	        		+ "`ABILITY`=?, `GENDER`=?, `BIRTHDAY`=?, `DESCRIPTION`=?, `EMAIL`=?"
 	        		+ "WHERE `USER_ID`=?");
 
 	        params.add(user.getAccount());
@@ -294,6 +296,7 @@ public class UserDAO {
 	        params.add(user.getGender());
 	        params.add(user.getBirthday());
 	        params.add(user.getDescription());
+	        params.add(user.getEmail());
 	        params.add(user.getId());
 	        
 	        //execute querry with sql and params

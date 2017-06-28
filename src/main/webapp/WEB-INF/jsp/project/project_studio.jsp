@@ -85,11 +85,15 @@
 								<input type="password" class="form-control" id="usrPassword">
 							</div>
 							<div class="form-group">
-								<label for="usrName">Tên hiển thị</label>
+								<label for="usrName">Tên hiển thị:</label>
 								<input type="text" class="form-control" id="usrName">
 							</div>
 							<div class="form-group">
-								<label for="usrAddress">Địa chỉ</label>
+								<label for="usrAddress">Địa chỉ:</label>
+								<input type="text" class="form-control" id="usrAddress">
+							</div>
+							<div class="form-group">
+								<label for="usrEmail">Email:</label>
 								<input type="text" class="form-control" id="usrAddress">
 							</div>
 							<div class="form-group">

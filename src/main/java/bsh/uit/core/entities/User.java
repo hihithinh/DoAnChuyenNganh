@@ -51,6 +51,9 @@ public class User implements Serializable {
 	//Tu gioi thieu
 	private String description;
 	
+	//Email
+	private String email;
+
 	public String getId() {
 		return id;
 	}
@@ -171,4 +174,11 @@ public class User implements Serializable {
 		this.description = description;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
