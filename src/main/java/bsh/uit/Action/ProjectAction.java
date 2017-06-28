@@ -86,6 +86,14 @@ public class ProjectAction  extends ActionSupport {
 	public String doCombile() {
 		//Giao tiep giua shell va java
 		//su dung bien pid
+		try {
+            String command = "cd /home/tomcat/upload/scripts/ && ./combine.sh " + pid + " > log_combile 2>&1 &";
+            Process p = Runtime.getRuntime().exec(new String[]{"bash","-c",command});    
+        } 
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 		System.out.println("do combile");
 		return SUCCESS;
 	}
