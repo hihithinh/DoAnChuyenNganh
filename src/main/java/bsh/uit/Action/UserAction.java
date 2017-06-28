@@ -52,7 +52,8 @@ public class UserAction extends ActionSupport implements SessionAware{
 		   } else {
 			   loginState = true;
 			   user.setPassword(null);
-			   sessionMap.put("username", mapper.writeValueAsString(user));
+			   sessionMap.put("user", mapper.writeValueAsString(user));
+			   sessionMap.put("account", user.getAccount());
 		   }
 		   
 		   return SUCCESS;
@@ -70,7 +71,8 @@ public class UserAction extends ActionSupport implements SessionAware{
    }
    
    public String getHeader() throws Exception {
-	   if(sessionMap.get("username") != null) {
+	   if(sessionMap.get("user") != null) {
+		   user = userMgr.getUserbyAccount((String)sessionMap.get("account"));
 		   return "logged";
 	   }
 	   return "unlog";
@@ -87,8 +89,11 @@ public class UserAction extends ActionSupport implements SessionAware{
    
    public String Logout() {
        // remove userName from the session
-       if (sessionMap.containsKey("username")) {
-           sessionMap.remove("username");
+       if (sessionMap.containsKey("user")) {
+           sessionMap.remove("user");
+       }
+       if (sessionMap.containsKey("account")) {
+    	   sessionMap.remove("account");
        }
        return SUCCESS;
    }

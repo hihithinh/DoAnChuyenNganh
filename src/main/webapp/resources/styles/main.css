@@ -71,7 +71,9 @@ img {
 #rightheader, #rightheader a {
 	float: right;
 }
-
+#rightheader, #rightheader a:first-child {
+	padding-left: 10px;
+}
 #nof-num {
 	margin-left: -8px;
 	z-index: 10;
@@ -195,6 +197,10 @@ img {
 #body .home div ul li a.more:hover {
 	background-color: #620031;
 }
+/*----------------------------------------body-studio-page-styles---------------------------------------*/
+#body .studio h2 {
+	color: #ffffff;
+}
 .btnHome {
 	background-image: url(images/icon-home.png);
 	background-size: 50px 50px;
@@ -204,4 +210,7 @@ img {
     height:50;
     float:left;
     padding-left: 10;
+}
+.btnUploadFileSubmit {
+	display: none;
 }

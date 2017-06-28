@@ -63,7 +63,10 @@
 		<div class="studio"></div>
 		<iframe class="studio" id="studio" frameBorder="0" src=""></iframe>
 		
-		<script>var loguser = JSON.parse('<%= session.getAttribute("username") %>');</script>
+		<script>
+			var loguser = '<%= session.getAttribute("account") %>';
+			if (loguser == "null") loguser = null;
+		</script>
 		<script type="text/javascript" src="resources/scripts/main.js"></script>
 </body>
 </html>

@@ -1,39 +1,3 @@
-//Xu ly title
-var rev = "fwd";
-function titlebar(val) {
-	var msg  = document.getElementById('page').innerHTML == "studio" ? document.getElementById('pjName').innerHTML + "-" + document.getElementById('pjUser').innerHTML : "Ứng dụng kết nối người chơi nhạc";
-	var res = " ";
-	var speed = 100;
-	var pos = val;
-			
-	msg = "   ♩♬♪♫ "+msg+" ♩♪♫♬";
-	var le = msg.length;
-	if(rev == "fwd"){
-		if(pos < le){
-			pos = pos+1;
-			scroll = msg.substr(0,pos);
-			document.title = scroll;
-			timer = window.setTimeout("titlebar("+pos+")",speed);
-		} else {
-			rev = "bwd";
-			timer = window.setTimeout("titlebar("+pos+")",speed);
-		}
-	} else {
-		if(pos > 0){
-			pos = pos-1;
-			var ale = le-pos;
-			scrol = msg.substr(ale,le);
-			document.title = scrol;
-			timer = window.setTimeout("titlebar("+pos+")",speed);
-		} else {
-			rev = "fwd";
-			timer = window.setTimeout("titlebar("+pos+")",speed);
-		}    
-	}
-}
-titlebar(0);
-
-
 $('#btnModalLogin').on('click', function() {
 	alert ("inside onclick");
 	$('#modalLogin').modal({show:true})
@@ -42,8 +6,16 @@ $('#profileTab').click(function (e) {
 	 e.preventDefault();
 	 $(this).tab('show');
 });
-
-
+$('#btnOpenUploadForm').click(function(){
+	if(loguser) {
+		$('#uploadFormModal').modal({show:true})
+	} else {
+		$('#modalLogin').modal({show:true})
+	}
+});
+$('#uploadFormModal').find("button.btn-primary").click(function(){
+	$("#btnUploadSubmit").click();
+});
 
 $( document ).ready( function(){
 	$.ajax({
@@ -53,13 +25,9 @@ $( document ).ready( function(){
 			document.getElementById('header').innerHTML = res;
 		}
 	});
-	if(loguser != null) {
-		if(document.getElementById('page-name').innerHTML == "studio") {
-			document.getElementById("btnAlertLogin").style.display = "none";
-			document.getElementById('uid').value = loguser.id;
-		}
-	} else if(document.getElementById('page-name').innerHTML == "studio") {
-		document.getElementById("btnUploadSubmit").style.display = "none";
+	if(loguser && document.getElementById('page-name').innerHTML == "studio") {
+		document.getElementById('uid').value = loguser;
+		document.getElementById('uid').value = $("pjId").text();
 	}
 	if(document.getElementById('page-name').innerHTML == "home") {
 		home.loadNewsFeed(loguser == null ? "U2" : loguser.id);
@@ -74,15 +42,9 @@ $( document ).ready( function(){
 	$(window).resize(function() {
 		console.log($(window).width());
 		if($(window).width() < 1000) {
-			$('#content').css({"margin-left": "auto", "margin-right": "auto"});
-			$('#pjinfo').css({"margin-left": "0px", "margin-top": "300px"});
-			$('#btnStudio').css({"bottom": "", "right": "5px", "top": "0px"});
-		} else if($(window).width() < 1300) {
-			$('#content').css({"margin-left": "auto", "margin-right": "auto"});
+			$('.more').css({"top": 0, "bottom": ""});
 		} else {
-			$('#content').css({"margin-left": "150px", "margin-right": "150px"});
-			$('#pjinfo').css({"margin-left": "400px", "margin-top": "0px"});
-			$('#btnStudio').css({"bottom": "10px", "right": "10px", "top": ""});
+			$('.more').css({"top": "", "bottom": 0});
 		}
 	});
 });
@@ -215,24 +177,32 @@ var home = {
 			data: JSON.stringify({"account":document.getElementById('account').value,"password":document.getElementById('password').value}),
 			success : function (res) {
 				if(res.loginState) {
-					$('#login').hide();
-					document.getElementById('hello').style.color = "#000000";
-					$('#hello').text("Xin chào, " + home.titleCase(res.user.name));
-					$('#modalLogin').modal('hide');
+					$('#modalLogin').modal("toggle");
 					if(document.getElementById('page').innerHTML == "studio") {
 						document.getElementById('uid').value = res.user.id;
-						document.getElementById("btnAlertLogin").style.display = "none";
-						document.getElementById("btnUploadSubmit").style.display = "block";
 					}
+					window.location.reload();
 				} else {
-					document.getElementById('logStatus').style.color = "#ff0000";
+					$('#logStatus').css("color", "#ff0000");
 					$('#logStatus').text("Tài khoản hoặc mật khẩu sai!");
-					document.getElementById('account').value = "";
-					document.getElementById('password').value = "";
 				}
 			},
 			error:function(){
 				alert("Xảy ra lỗi khi đăng nhập");	
+			}
+		});
+	},
+	Logout: function () {
+		user = null;
+		$.ajax({
+			url: "/MuzConnect/Logout",
+			type : "get",
+			success : function (res) {
+				loguser = null;
+				window.location.reload();
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi đăng xuất");	
 			}
 		});
 	},

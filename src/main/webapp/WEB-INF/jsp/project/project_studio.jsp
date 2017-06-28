@@ -33,70 +33,78 @@
 	     			fjs.parentNode.insertBefore(js, fjs);
 	   			}(document, 'script', 'facebook-jssdk'));
 		</script>
-		<div style="display:none" id="page">studio</div>
+		<div style="display:none" id="page-name">studio</div>
 		<span id="pjName" style="display:none"><s:property value="lstProject[0].name" /></span>
 		<span id="pjUser" style="display:none"><s:property value="lstProject[0].user.name" /></span>
 		<span id="pjId" style="display:none"><s:property value="lstProject[0].id" /></span>
 		<span id="pjStatus" style="display:none"><s:property value="lstProject[0].status" /></span>
-		
-		<div id="header" class="header">
-			<div id="btnHome" class="btnHome"></div>
-			<div id="btnConfig" class="btnConfig"></div>
-			<div id="user" class="user">
-				<div id="login" class="rfloat">
-					<a href="#" class="btn btn-default" id="btnModalLogin">Đăng Nhập</a>
-				</div>
-				<div id="hello"></div>
-				</div>
-		</div>
-		<div id="modalLogin" class="modal fade" tabindex="-1" role="dialog">
-			<div class="modal-dialog" style="width:300px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-						<h3>Đăng nhập</h3>
-					</div>
-					<div class="modal-body">
-						<div id="logStatus" class="login_input"></div>
-						<div class="login_input">
-							<span>Account: </span>
-							<input type="text" id="account" name="account" class="form-control">
+		<div id="page">
+			<div id="header">
+			</div>
+			<div id="modalLogin" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog" style="width:300px">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h3>Đăng nhập</h3>
 						</div>
-						<div class="login_input">
-							<span>Password: </span>
-							<input type="password" id="password" name="password" class="form-control">
+						<div class="modal-body">
+							<div id="logStatus" class="login_input"></div>
+							<div class="login_input">
+								<span>Account: </span>
+								<input type="text" id="account" name="account" class="form-control">
+							</div>
+							<div class="login_input">
+								<span>Password: </span>
+								<input type="password" id="password" name="password" class="form-control">
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn" onclick="home.Login()">Đăng nhập</button>
+						<div class="modal-footer">
+							<button class="btn" onclick="home.Login()">Đăng nhập</button>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div id="uploadFormModal" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h3>Hãy đăng video nào!</h3>
+						</div>
+						<div class="modal-body">
+							<s:form action="fileUpload" method="post" enctype="multipart/form-data">
+					          <s:file name="fileDoc" label="Chọn file" accept="video/*"/>
+					          <s:hidden name="pid" value="" id="pid" />
+					          <s:hidden name="uid" value="" id="uid" />
+							  <s:label key="Loại nhạc cụ" />
+					          <s:select label="Instrument" list="#{'T300':'Hát', 'T301':'Guitar', 'T302':'Piano', 'T303':'Organ', 'T304':'Violin', 'T305':'Trống', 'T306':'Ukulele', 'T307':'Harmonica'}" name="instrument" value="1" />
+					          <s:label key="Lời nhắn đến Host" />
+					          <s:textarea name="description" label="Mô tả" cols="50" rows="10" />
+					          <s:submit value="Đăng Video" align="left" id="btnUploadSubmit" cssClass="btnUploadFileSubmit"/>
+					      </s:form>
+							</div>
+						<div class="modal-footer">
+							<button class="btn" data-dismiss="modal">Hủy</button>
+					      	<button class="btn btn-primary">Đăng</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="body">
+				<div class="studio">
+					<h2><s:property value="lstProject[0].name"/> - <s:property value="lstProject[0].user.name"/></h2>
+					<iframe id="studio" width="100%" height="850" frameBorder="0" src=""></iframe>
+				</div>
+				<button id="btnCombile" class="btn" onclick="studio.doCombile(pjId.innerHTML)">Combile</button>
+				<a href="#" class="btn btn-default" id="btnOpenUploadForm">Tham gia</a>	
+			</div>
 		</div>
-		<h2><s:property value="lstProject[0].name"/> - <s:property value="lstProject[0].user.name"/></h2>
-		<iframe id="studio" width="100%" height="850" frameBorder="0" src=""></iframe>
-		
-		<div id="dialog-form" title="Tải lên Video của bạn">
-			<p class="validateTips">Hãy đăng video nào!</p>
-		 
-			<s:form action="fileUpload" method="post" enctype="multipart/form-data">
-		        <s:file name="fileDoc" label="Chọn file" accept="video/*"/>
-		        <s:hidden name="pid" value="" id="pid" />
-		        <s:hidden name="uid" value="" id="uid" />
-		        <s:select label="Instrument"
-					list="#{'T300':'Hát', 'T301':'Guitar', 'T302':'Piano', 'T303':'Organ', 'T304':'Violin', 'T305':'Trống', 'T306':'Ukulele', 'T307':'Harmonica'}"
-					name="instrument"
-					value="1" />
-				<s:textarea name="description" label="Mô tả" cols="34" rows="10" />
-		        <s:submit value="Đăng Video" align="left" id="btnUploadSubmit"/>
-			</s:form>
-			<input type="button" id="btnAlertLogin" value="Đăng Video"  onclick="studio.checkLogin()"/>
-		</div>
-		
-		<button id="btnCombile" onclick="studio.doCombile(pjId.innerHTML)">Combile</button>
-		<button id="btnUpload">Tham gia</button>
-		
-		<script>var loguser = JSON.parse('<%= session.getAttribute("username") %>');</script>
+		<script>
+			var loguser = '<%= session.getAttribute("account") %>';
+			if (loguser == "null") loguser = null;
+			$("#btnUploadSubmit").css("display", "none");
+		</script>
 		<script type="text/javascript" src="/MuzConnect/resources/scripts/main.js"></script>
 </body>
 </html>

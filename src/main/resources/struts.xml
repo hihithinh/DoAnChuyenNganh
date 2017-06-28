@@ -63,6 +63,10 @@
          <!-- <result name="success">/WEB-INF/jsp/uploadSuccess.jsp</result>
          <result name="input">/WEB-INF/jsp/index.jsp</result> -->
      </action>
+     <action name="Logout" class="bsh.uit.Action.UserAction" method="Logout" >
+         <result name="success" type="json">
+         </result>
+     </action>
      <action name="user/*" class="bsh.uit.Action.UserAction" method="viewUserInfo">
      	<param name="account">{1}</param>
      	<result name="simple">/WEB-INF/jsp/user/user_profile_simple.jsp</result>
@@ -121,7 +125,11 @@
          	<!-- <param name="includeProperties">lstDetail</param>  -->
          </result>
      </action>
-     
+     <action name="addYoutubeVideo" class="bsh.uit.Action.DetailAction" method="addYoutubeVideo">
+     	<result name="success" type="json">
+         	<!-- <param name="includeProperties">lstDetail</param>  -->
+         </result>
+     </action>
      
      <!-- File Upload Action -->
 	<action name="fileUpload" class="bsh.uit.Action.FileUploadAction" >

@@ -46,16 +46,15 @@
 			<div id="body">
 				<div class="home">
 					<div>
-						<ul id="content">
-						
-						</ul>
+						<ul id="content"></ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="resources/scripts/main.js"></script>
 		<script type="text/javascript">
-			var loguser = JSON.parse('<%= session.getAttribute("username") %>');
+			var loguser = '<%= session.getAttribute("account") %>';
+			if (loguser == "null") loguser = null;
 		</script>
+		<script type="text/javascript" src="resources/scripts/main.js"></script>
 	</body>
 </html>

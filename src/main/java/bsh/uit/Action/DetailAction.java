@@ -14,6 +14,7 @@ public class DetailAction extends ActionSupport {
 	private DetailMgr detailMgr;
 	private ArrayList<Project_Detail> lstDetail;
 	private String pid;
+	private Project_Detail detail;
 	
 	public DetailAction() {
 		detailMgr = new DetailMgr();
@@ -28,7 +29,12 @@ public class DetailAction extends ActionSupport {
 		}
 		return SUCCESS;
 	}
-
+	
+	public String addYoutubeVideo() throws Exception {
+		detailMgr.addProject_Detail(detail);
+		return SUCCESS;
+	}
+	
 	public ArrayList<Project_Detail> getLstDetail() {
 		return lstDetail;
 	}
@@ -36,4 +42,9 @@ public class DetailAction extends ActionSupport {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
+
+	public void setDetail(Project_Detail detail) {
+		this.detail = detail;
+	}
+
 }
