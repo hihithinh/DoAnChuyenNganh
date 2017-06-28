@@ -79,6 +79,9 @@ public class UserAction extends ActionSupport implements SessionAware{
    }
    public String createNewUser() throws Exception {
 	   user = userMgr.addUser(user);
+	   account = user.getAccount();
+	   password = user.getPassword();
+	   Login();
 	   return SUCCESS;
    }
    

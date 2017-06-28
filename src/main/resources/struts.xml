@@ -67,6 +67,10 @@
          <result name="success" type="json">
          </result>
      </action>
+     <action name="createUser" class="bsh.uit.Action.UserAction" method="createNewUser" >
+         <result name="success" type="json">
+         </result>
+     </action>
      <action name="user/*" class="bsh.uit.Action.UserAction" method="viewUserInfo">
      	<param name="account">{1}</param>
      	<result name="simple">/WEB-INF/jsp/user/user_profile_simple.jsp</result>

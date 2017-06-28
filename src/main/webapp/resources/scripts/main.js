@@ -1,12 +1,11 @@
 $('#btnModalLogin').on('click', function() {
-	alert ("inside onclick");
 	$('#modalLogin').modal({show:true})
 });
 $('#profileTab').click(function (e) {
 	 e.preventDefault();
 	 $(this).tab('show');
 });
-$('#btnOpenUploadForm').click(function(){
+$('#btnOpenUploadForm').on('click', function() {
 	if(loguser) {
 		$('#uploadFormModal').modal({show:true})
 	} else {
@@ -16,11 +15,14 @@ $('#btnOpenUploadForm').click(function(){
 $('#uploadFormModal').find("button.btn-primary").click(function(){
 	$("#btnUploadSubmit").click();
 });
-
+$('#btnOpenCreateUser').on('click', function() {
+	$('#modalLogin').modal('hide')
+	$("#createUserModal").modal({show:true})
+});
 $( document ).ready( function(){
 	$.ajax({
 		url: "/MuzConnect/get-header",
-		type : "post",
+		type : "get",
 		success : function (res) {
 			document.getElementById('header').innerHTML = res;
 		}
@@ -206,6 +208,49 @@ var home = {
 			}
 		});
 	},
+	createUser: function () {
+		var abilityString = "";
+		for (var i = 0; i < $("#usrAbility").val().length; i++) {
+			abilityString = abilityString + $("#usrAbility").val()[i] + ", "
+		}
+		abilityString = abilityString.substring(0, abilityString.length - 2);
+		var newUser = {
+				account: $("#usrAccount").val(),
+				password: $("#usrPassword").val(),
+				fbtoken: null,
+				ggtoken: null,
+				name: $("#usrName").val() || $("#usrAccount").val(),
+				address: $("#usrAddress").val() || "Không có",
+				avatar: "default.png",
+				user_type: {
+					id: "T102"
+				},
+				status: 1,
+				gender: $("#usrGender").val(),	
+				ability: abilityString,
+				birthday: new Date($("#datepicker").val()),
+				description: $("#usrDescription").val() || null
+		}
+		$.ajax({
+			url: "/MuzConnect/createUser",
+			type : "post",
+			dateType:"json",
+			contentType:"application/json",
+			data: JSON.stringify({"user":newUser}),
+			success : function (res) {
+				if(res.loginState) {
+					$('#modalLogin').modal("toggle");
+					if(document.getElementById('page').innerHTML == "studio") {
+						document.getElementById('uid').value = res.user.id;
+					}
+					window.location.reload();
+				}
+			},
+			error:function(){
+				alert("Xảy ra lỗi khi tạo User");	
+			}
+		});
+	},
 	//Xu ly Proper case cho String
 	titleCase: function (str) {
 		  var newstr = str.split(" ");
@@ -271,26 +316,26 @@ var home = {
 				document.getElementById('content').innerHTML += str;
 			},
 			error:function(){
-				alert("Xảy ra lỗi khi đăng nhập");	
+				alert("Xảy ra lỗi khi lấy New feed");	
 			}
 		});
 	},
 }
 
 var studio = {
-	doCombile: function (id) {
+	doCombile: function () {
 		user = null;
 		$.ajax({
-			url: "doCombile",
+			url: "/MuzConnect/doCombile",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",
-			data: JSON.stringify({"pid":id}),
+			data: JSON.stringify({"pid": $("#pjId").text()}),
 			success : function (res) {
 				//xu ly JSON tra ve khi Combile thanh cong
 			},
 			error:function(){
-				alert("Xảy ra lỗi khi đăng nhập");	
+				alert("Xảy ra lỗi khi combine");	
 			}
 		});
 	},

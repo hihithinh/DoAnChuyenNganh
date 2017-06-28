@@ -86,7 +86,7 @@ public class ProjectAction  extends ActionSupport {
 	public String doCombile() {
 		//Giao tiep giua shell va java
 		//su dung bien pid
-		System.out.printf("do combile	");
+		System.out.println("do combile");
 		return SUCCESS;
 	}
 

@@ -235,8 +235,8 @@ public class UserDAO {
 	        params.add(user.getUser_type().getId());
 	        params.add(new Date());
 	        params.add(user.getStatus());
-	        params.add(user.getStatus());
 	        params.add(user.getAbility());
+	        params.add(user.getGender());
 	        params.add(user.getBirthday());
 	        params.add(user.getDescription());
 	        
