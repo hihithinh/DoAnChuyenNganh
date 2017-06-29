@@ -1,10 +1,11 @@
 $('#btnModalLogin').on('click', function() {
 	$('#modalLogin').modal({show:true})
 });
-$('#profileTab').click(function (e) {
+$('#myTab a').click(function (e) {
 	 e.preventDefault();
 	 $(this).tab('show');
 });
+
 $('#btnOpenUploadForm').on('click', function() {
 	if(loguser) {
 		$('#uploadFormModal').modal({show:true})
@@ -19,6 +20,10 @@ $('#btnOpenCreateUser').on('click', function() {
 	$('#modalLogin').modal('hide')
 	$("#createUserModal").modal({show:true})
 });
+$('#openPickBackingTrackModal').on('click', function() {
+	$("#pickBackingTrackModal").modal({show:true})
+});
+
 $( document ).ready( function(){
 	$.ajax({
 		url: "/MuzConnect/get-header",
@@ -411,7 +416,7 @@ var studio = {
 	  request.execute(function(response) {
 	    var str = JSON.stringify(response.result);
 	    studio.searchResult = response.result;
-	    var htmlstr = '<div id="selected" style="font-color:white"></div><form><input type="button" value="ok cái này" onclick="studio.setBackingTrack()"/>';
+	    var htmlstr = '<div id="selected" style="font-color:white"></div><form>';
 	    for (var i = 0; i < response.result.items.length; i++) {
 	    	htmlstr = htmlstr+'<div id="ytItem'+i+'"><iframe width="560" height="315" src="https://www.youtube.com/embed/' + response.result.items[i].id.videoId +'" frameborder="0" allowfullscreen></iframe></div>';
 	    	htmlstr = htmlstr+'<input type="radio" name="item" value="'+response.result.items[i].id.videoId+'" onclick="studio.checkRadioBKT('+i+')" />';
@@ -424,15 +429,70 @@ var studio = {
 		$('#selected').html('Đã chọn:'+studio.searchResult.items[itemNumber].snippet.title);
 		studio.searchResult.checked = itemNumber;
 	},
+	createStudio: function() {
+		str = $("#txtInput").val();
+		url = '<iframe width="560" height="315" src="https://www.youtube.com/embed/'+str+'" frameborder="0" allowfullscreen></iframe>';
+		$("#inputContent").html(url);
+	},
+	url: null,
+	pickBackingTrack: function() {
+		studio.url = "";
+		if($("#body").find("li.active").find("div.selection").text() == 1) {
+			studio.url = studio.searchResult.items[studio.searchResult.checked].id.videoId;
+		} else if($("#body").find("li.active").find("div.selection").text() == 2){
+			studio.url = $("#txtInput").val();
+		}
+		$("#bktrackreview").html('<iframe width="560" height="315" src="https://www.youtube.com/embed/'+studio.url+'" frameborder="0" allowfullscreen></iframe>');
+		$("#pickBackingTrackModal").modal("hide")
+	},
 	setBackingTrack: function() {
+		var backingTrack = {
+				user: {
+					id: $("#userID").text()
+				},
+				link: studio.url,
+				instrument: {
+					id: "T299"
+				},
+				description: $("#userID").text()
+		}
+		var newProject = {
+				name: $("#pjName").val(),
+				user: {
+					id: $("#userID").text()
+				},
+				artist_name: $("#artName").val(),
+				music_type: {
+					id: "T201"
+				},
+				description: $("#pjDescription").val()
+		}
+		for (var i = 0; i < $("#needInstrument").val().length; i++) {
+			if($("#needInstrument").val()[i].toLowerCase() == "piano")
+				newProject.needPiano = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "organ")
+				newProject.needOrgan = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "hát")
+				newProject.needVocal = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "guitar")
+				newProject.needGuitar = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "Violin")
+				newProject.needViolon = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "Trống")
+				newProject.needDrum = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "Ukulele")
+				newProject.needUkulele = 1;
+			else if($("#needInstrument").val()[i].toLowerCase() == "Harmonica")
+				newProject.needHarmonica = 1;
+		}
 		$.ajax({
 			url: "createStudio",
 			type : "post",
 			dateType:"json",
 			contentType:"application/json",
-			data: JSON.stringify({"backingTrack":{"user":{"id":"U1"},"link":studio.searchResult.items[studio.searchResult.checked].id.videoId, "instrument":{"id":"T299"}, "description": loguser.id}}),
+			data: JSON.stringify({"backingTrack": backingTrack, "newProject": newProject}),
 			success : function (res) {
-				window.location.replace("getProjectStudio?pid="+res.pid);
+				window.location.replace("studio/"+res.pid);
 			},
 			error:function(){
 				alert("Xảy ra lỗi khi lấy dữ liệu");	

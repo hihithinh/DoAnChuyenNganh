@@ -13,6 +13,7 @@
 	</div>
 	<div id="rightheader">
 		<a href="#" id="btnLogout" onclick="home.Logout()"> Đăng xuất</a>
+		<div id="userID" style="display:none">${user.id}</div>
 		<a href="#">${user.name}</a>
 		<span id="nof-num" style="position: absolute;">9</span>
 		<a style="margin-top: -6px; position: absolute; margin-left: -40px; ">

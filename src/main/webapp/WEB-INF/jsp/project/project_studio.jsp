@@ -75,7 +75,7 @@
 							<button type="button" class="close" data-dismiss="modal">×</button>
 							<h3>Tạo tài khoản</h3>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body" style="overflow-y: scroll; height: 500px">
 							<div class="form-group">
 								<label for="usrAccount">Tên đăng nhập (bắt buộc):</label>
 								<input type="text" class="form-control" id="usrAccount">

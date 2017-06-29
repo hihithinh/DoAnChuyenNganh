@@ -278,7 +278,7 @@ public class ProjectDAO {
 			//Get last ID then +1
 			Project vid = new Project();
 			vid = getLastProject();
-			String lastId = "PRO" + String.valueOf(Integer.parseInt(vid.getId().substring(1)) + 1);
+			String lastId = "PRO" + String.valueOf(Integer.parseInt(vid.getId().substring(3)) + 1);
 			
 			params.add(lastId);
 			params.add(project.getName());

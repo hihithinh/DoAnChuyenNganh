@@ -114,6 +114,10 @@ public class ProjectAction  extends ActionSupport {
 		this.pid = pid;
 	}
 
+	public String getPid() {
+		return pid;
+	}
+
 	public Video getBackingTrack() {
 		return backingTrack;
 	}
