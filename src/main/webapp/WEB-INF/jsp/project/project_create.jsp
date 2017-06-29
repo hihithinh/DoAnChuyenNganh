@@ -159,8 +159,8 @@
 					        <div class="modal-body">
 					            <div class="container">
 						          	<ul class="nav nav-tabs" id="myTab" style="border-bottom: '0px'">
-						              <li class="active"><a href="#search">Home</a><div class="selection" style="display:none">1</div></li>
-						              <li><a href="#input">Profile</a><div class="selection" style="display:none">2</div></li>
+						              <li class="active"><a href="#search">Tìm kiếm</a><div class="selection" style="display:none">1</div></li>
+						              <li><a href="#input">Nhập đường dẫn</a><div class="selection" style="display:none">2</div></li>
 						          	</ul>
 						           
 						          	<div class="tab-content">

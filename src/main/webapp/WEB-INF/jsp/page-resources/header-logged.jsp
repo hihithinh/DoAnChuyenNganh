@@ -8,8 +8,6 @@
 			<input type="text" class="search-input" maxlength="100" placeholder="SEARCH"/>
 			<button type="submit" id="search-btn"><img src="/MuzConnect/resources/styles/images/icon-search.png" alt=""></button>
 		</div>
-		<div> Dự án mới </div>
-		<div> Đã tham gia </div>
 	</div>
 	<div id="rightheader">
 		<a href="#" id="btnLogout" onclick="home.Logout()"> Đăng xuất</a>
@@ -19,6 +17,7 @@
 		<a style="margin-top: -6px; position: absolute; margin-left: -40px; ">
 			<img src="/MuzConnect/resources/styles/images/new-email-notification.png" alt="">
 		</a>
+		<a href="/MuzConnect/createStudio"> Dự án mới&#160;</a>
 	</div>
 </div>
 <script>
