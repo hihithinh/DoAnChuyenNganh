@@ -30,11 +30,13 @@ $( document ).ready( function(){
 		type : "get",
 		success : function (res) {
 			document.getElementById('header').innerHTML = res;
+			if(loguser && document.getElementById('page-name').innerHTML == "studio") {
+				document.getElementById('uid').value = $("#userID").html();
+			}
 		}
 	});
 	if(loguser && document.getElementById('page-name').innerHTML == "studio") {
-		document.getElementById('uid').value = loguser;
-		document.getElementById('uid').value = $("pjId").text();
+		document.getElementById('pid').value = document.getElementById('pjId').innerHTML;
 	}
 	if(document.getElementById('page-name').innerHTML == "home") {
 		home.loadNewsFeed(loguser == null ? "U2" : loguser.id);

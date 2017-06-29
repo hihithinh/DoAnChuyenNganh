@@ -37,7 +37,7 @@ public class FileUploadAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		// Location to store the uploaded file in our desired path
-		String targetPath = "E:/NPT/" + pid;
+		String targetPath = "D:/NPT/" + pid;
 		
 		Video video = new Video();
 		video.setUser(userMgr.getUserbyId(uid));
