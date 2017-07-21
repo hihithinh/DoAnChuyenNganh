@@ -74,7 +74,7 @@
      <action name="user/*" class="bsh.uit.Action.UserAction" method="viewUserInfo">
      	<param name="account">{1}</param>
      	<result name="simple">/WEB-INF/jsp/user/user_profile_simple.jsp</result>
-     	<result name="full">/WEB-INF/jsp/user/user_profile.jsp</result>
+     	<result name="full">/WEB-INF/jsp/user/user_profile_full.jsp</result>
      </action>
      <action name="get-header" class="bsh.uit.Action.UserAction" method="getHeader">
      	<result name="unlog">/WEB-INF/jsp/page-resources/header-unlog.jsp</result>
